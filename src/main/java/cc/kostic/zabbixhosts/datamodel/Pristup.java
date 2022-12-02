@@ -2,32 +2,32 @@ package cc.kostic.zabbixhosts.datamodel;
 
 import cc.kostic.zabbixhosts.Record;
 
+import java.util.Map;
 import java.util.Set;
 
 public class Pristup extends Element{
 	
-	public enum PRISTUP {NEMA, pristup3G, IPLink, HCLink, nepoznato}
-	private Record rec;
-	Set<String> interfejsi;
+	public enum TIP {NEMA, pristup3G, IPLink, HCLink, nepoznato}
 	
-	public Pristup(String csvHeader, String csvValue) {
-		super(csvHeader, csvValue);
+	
+	public Pristup(Map<String, String> elementi, String csvHeader) {
+		super(elementi, csvHeader);
 	}
 	
-	public PRISTUP getTyp(){
+	public TIP getTyp(){
 		switch (csvValue){
-			case "": 		return PRISTUP.NEMA;
-			case "3G": 		return PRISTUP.pristup3G;
-			case "IP Lnk":	return PRISTUP.IPLink;
-			case "Lnk":		return PRISTUP.HCLink;
-			default:		return PRISTUP.nepoznato;
+			case "": 		return TIP.NEMA;
+			case "3G": 		return TIP.pristup3G;
+			case "IP Lnk":	return TIP.IPLink;
+			case "Lnk":		return TIP.HCLink;
+			default:		return TIP.nepoznato;
 		}
 	}
 	
 	@Override
-	public String toString() {
+	public String toXml() {
 		String s = "";
-		PRISTUP pr = getTyp();
+		TIP pr = getTyp();
 		switch (pr){
 			case NEMA:
 				break;

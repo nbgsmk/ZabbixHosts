@@ -1,14 +1,19 @@
 package cc.kostic.zabbixhosts.datamodel;
 
+import java.text.Normalizer;
+import java.util.Map;
+
 public class Lokacija extends Element{
-	public Lokacija(String header, String value) {
-		super(header, value);
+	
+	public Lokacija(Map<String, String> elementi, String csvHeader) {
+		super(elementi, csvHeader);
 	}
 	
-	
 	@Override
-	public String toString(){
+	public String toXml(){
 		String rez;
+		String a = stripYu(this.csvValue);
+		String b = this.csvValue;
 		if ( stripYu(this.csvValue).equals(this.csvValue) ) {
 			rez =
 				"<host>" + this.csvValue + "</host>"				// host podrzava samo ASCII
@@ -21,4 +26,5 @@ public class Lokacija extends Element{
 		}
 		return rez;
 	}
+	
 }

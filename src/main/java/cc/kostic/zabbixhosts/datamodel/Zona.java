@@ -1,10 +1,11 @@
 package cc.kostic.zabbixhosts.datamodel;
 
-public class Zona extends Element{
-	public Zona(String header, String value) {
-		super(header, value);
-	}
-	
+import java.util.Map;
 
+public class Zona extends Element{
 	
+	public Zona(Map<String, String> elementi, String csvHeader) {
+		super(elementi, csvHeader);
+	}
+
 }

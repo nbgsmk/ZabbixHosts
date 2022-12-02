@@ -23,5 +23,15 @@ class ElementTest {
 		assertEquals("kaDj", m.stripYu("kaĐ"));
 		assertEquals("sSabac", m.stripYu("šŠabac"));
 		
+		String a = "patkabczec";
+		assertEquals("patk-x-zec", a.replaceAll("abc", "-x-"));
+		
+		
+		
+	}
+	
+	@Test
+	void removeDiacriticalMarksTest() {
+		assertEquals("Gracisce", m.removeDiacriticalMarks("Gračišće"));
 	}
 }

@@ -1,12 +1,12 @@
 package cc.kostic.zabbixhosts.datamodel;
 
+import java.util.Map;
+
 public class SIM extends Element{
-	public SIM(String header, String value) {
-		super(header, value);
+	
+	public SIM(Map<String, String> elementi, String csvHeader) {
+		super(elementi, csvHeader);
 	}
 	
-	@Override
-	public String toString() {
-		return null;
-	}
+
 }

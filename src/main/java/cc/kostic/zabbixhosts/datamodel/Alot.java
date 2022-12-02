@@ -1,17 +1,12 @@
 package cc.kostic.zabbixhosts.datamodel;
 
+import java.util.Map;
+
 public class Alot extends Element{
 	
-	
-	public Alot(String header, String value) {
-		super(header, value);
+	public Alot(Map<String, String> elementi, String csvHeader) {
+		super(elementi, csvHeader);
 	}
 	
-	@Override
-	public String toString() {
-		String s  =
-				"<host>" + this.csvHeader + "</host>" +
-				"<name>" + this.csvValue + "</name>";
-		return s;
-	}
+
 }

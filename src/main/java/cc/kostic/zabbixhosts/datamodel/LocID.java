@@ -1,10 +1,13 @@
 package cc.kostic.zabbixhosts.datamodel;
 
-public class LocID extends Element{
-	public LocID(String header, String value) {
-		super(header, value);
-	}
+import java.util.Map;
 
+public class LocID extends Element{
+	
+	public LocID(Map<String, String> elementi, String csvHeader) {
+		super(elementi, csvHeader);
+	}
+	
 	public String getNum(){
 		return csvValue;
 	}

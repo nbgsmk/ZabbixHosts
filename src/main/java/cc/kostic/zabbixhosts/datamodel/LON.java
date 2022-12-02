@@ -1,12 +1,16 @@
 package cc.kostic.zabbixhosts.datamodel;
 
+import java.util.Map;
+
 public class LON extends Element{
-	public LON(String header, String value) {
-		super(header, value);
+	
+	public LON(Map<String, String> elementi, String csvHeader) {
+		super(elementi, csvHeader);
 	}
 	
 	@Override
-	public String toString() {
-		return null;
+	public String toXml() {
+		return "<location_lon>" + csvValue.trim() + "</location_lon>";
+		
 	}
 }

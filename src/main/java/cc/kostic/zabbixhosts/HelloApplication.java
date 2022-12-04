@@ -21,30 +21,32 @@ public class HelloApplication extends Application {
 //		stage.show();
 		
 		
+//		String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022.csv";
 		String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022-DEMO.csv";
 		String delimiter = ",";
 		List<Record> rekordi = readCSV(csvFile, delimiter);
 
 		List<ZbxHost> hostovi = new ArrayList<>();
 		
-		
-		Record r = rekordi.get(1);
-		if (Config.currentMode == Config.MODE.SVI_MUX_U_ISTI_HOST) {
-			ZbxHost h = new ZbxHost(r);
-			Map<String, IPinterfejs> svi = r.getInterfaces();
-			for (Map.Entry<String, IPinterfejs> intf : svi.entrySet()) {
-				h.addInterface(intf.getKey(), intf.getValue());
-			}
-			hostovi.add(h);
-		}
-		if (Config.currentMode == Config.MODE.SVAKI_MUX_POSEBAN_HOST) {
-			Map<String, IPinterfejs> svi = r.getInterfaces();
-			for (Map.Entry<String, IPinterfejs> intf : svi.entrySet()) {
+		for (Record r : rekordi) {
+			if (Config.currentMode == Config.MODE.SVI_MUX_U_ISTI_HOST) {
 				ZbxHost h = new ZbxHost(r);
-				h.addInterface(intf.getKey(), intf.getValue());
+				Map<String, IPinterfejs> svi = r.getInterfaces();
+				for (Map.Entry<String, IPinterfejs> intf : svi.entrySet()) {
+					h.addInterface(intf.getKey(), intf.getValue());
+				}
 				hostovi.add(h);
 			}
+			if (Config.currentMode == Config.MODE.SVAKI_MUX_POSEBAN_HOST) {
+				Map<String, IPinterfejs> svi = r.getInterfaces();
+				for (Map.Entry<String, IPinterfejs> intf : svi.entrySet()) {
+					ZbxHost h = new ZbxHost(r);
+					h.addInterface(intf.getKey(), intf.getValue());
+					hostovi.add(h);
+				}
+			}
 		}
+
 		
 		
 		for (ZbxHost h : hostovi) {

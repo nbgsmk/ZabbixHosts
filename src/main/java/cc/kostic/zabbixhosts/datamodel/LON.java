@@ -10,7 +10,10 @@ public class LON extends Element{
 	
 	@Override
 	public String toXml() {
-		return "<location_lon>" + csvValue.trim() + "</location_lon>";
-		
+		if (csvValue != null) {
+			return "<location_lat>" + csvValue.trim() + "</location_lat>";
+		} else {
+			return "";
+		}
 	}
 }

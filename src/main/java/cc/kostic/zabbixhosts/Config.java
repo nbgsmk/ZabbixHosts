@@ -14,8 +14,8 @@ public class Config {
 	
 	}
 	
-//	public static MODE currentMode = MODE.SVAKI_MUX_POSEBAN_HOST;
-	public static MODE currentMode = MODE.SVI_MUX_U_ISTI_HOST;
+	public static MODE currentMode = MODE.SVAKI_MUX_POSEBAN_HOST;
+//	public static MODE currentMode = MODE.SVI_MUX_U_ISTI_HOST;
 	
 	public static final Set<String> interfejsKolone = new HashSet<>(Arrays.asList(
 			"Pristup",

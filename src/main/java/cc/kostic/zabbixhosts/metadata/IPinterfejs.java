@@ -1,23 +1,29 @@
 package cc.kostic.zabbixhosts.metadata;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class IPinterfejs {
 	
-	private String adresa;
-	private TEMPLEJT.PROFIL templejt;
-	String naziv;
-	private int interfaceRef;
+	public String type;
+	public String adresa;
+	public String port;
+	public String detailsCommunity;
+	public int interfaceRef;
+	public String naziv;
+	private Templejt.TPL templejt;
 	
-	
-	public IPinterfejs(TEMPLEJT.PROFIL templejt, String adresa) {
-		this.templejt = templejt;
+	public IPinterfejs(String adresa) {
 		this.adresa = adresa;
 	}
 	
 	public IPinterfejs(String adresa, String naziv) {
 		this.adresa = adresa;
-		this.naziv = naziv;
 	}
 	
 	public String getAdresa() {
@@ -28,13 +34,7 @@ public class IPinterfejs {
 		this.adresa = adresa;
 	}
 	
-	public TEMPLEJT.PROFIL getTemplejt() {
-		return templejt;
-	}
 	
-	public void setTemplejt(TEMPLEJT.PROFIL templejt) {
-		this.templejt = templejt;
-	}
 	
 	public int getInterfaceRef() {
 		return interfaceRef;
@@ -50,5 +50,51 @@ public class IPinterfejs {
 	
 	public void setInterfaceRef(int interfaceRef) {
 		this.interfaceRef = interfaceRef;
+	}
+	
+	public Templejt.TPL getTemplejt() {
+		return templejt;
+	}
+	
+	public void setTemplejt(Templejt.TPL templejt) {
+		this.templejt = templejt;
+	}
+	
+	public List<Element> getTemplates(Document doc){
+		List<Element> tmp = new ArrayList<>();
+		
+//		Element top = doc.createElement("templates");
+		Element tmpl = doc.createElement("template");
+		Element naziv = doc.createElement("name");
+		
+//		top.appendChild(tmpl);
+		tmpl.appendChild(naziv);
+		naziv.appendChild(doc.createTextNode("TODO templejt - nazivs string"));
+		
+//		tmp.add(top);
+		tmp.add(tmpl);
+//		tmp.add(naziv);
+		return tmp;
+	}
+	
+	
+	public List<Element> getInterfaces(Document doc){
+		List<Element> tmp = new ArrayList<>();
+		
+//		Element sviIntf = doc.createElement("interfaces");
+		Element intf = doc.createElement("interface");
+		Element adresa = doc.createElement("ip");
+		adresa.appendChild(doc.createTextNode(this.getAdresa()));
+		Element ref = doc.createElement("interface_ref");
+		ref.appendChild(doc.createTextNode( "if" + String.valueOf(this.getInterfaceRef())));
+		
+//		sviIntf.appendChild(intf);
+		intf.appendChild(adresa);
+		intf.appendChild(ref);
+		
+//		tmp.add(sviIntf);
+		tmp.add(intf);
+//		tmp.add(naziv);
+		return tmp;
 	}
 }

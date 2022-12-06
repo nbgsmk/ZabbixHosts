@@ -1,6 +1,7 @@
 package cc.kostic.zabbixhosts;
 
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
+import cc.kostic.zabbixhosts.xml.ZbxExport;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -25,33 +26,34 @@ public class HelloApplication extends Application {
 		String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022-DEMO.csv";
 		String delimiter = ",";
 		List<Record> rekordi = readCSV(csvFile, delimiter);
-
 		List<ZbxHost> hostovi = new ArrayList<>();
 		
+	
 		for (Record r : rekordi) {
 			if (Config.currentMode == Config.MODE.SVI_MUX_U_ISTI_HOST) {
 				ZbxHost h = new ZbxHost(r);
-				Map<String, IPinterfejs> svi = r.getInterfaces();
-				for (Map.Entry<String, IPinterfejs> intf : svi.entrySet()) {
-					h.addInterface(intf.getKey(), intf.getValue());
+				List<IPinterfejs> svi = r.getInterfaces();
+				for (IPinterfejs ip : svi){
+					h.addInterface(ip);
 				}
+				h.setTemplejt(r.getTemplejtZajednicki());
 				hostovi.add(h);
 			}
 			if (Config.currentMode == Config.MODE.SVAKI_MUX_POSEBAN_HOST) {
-				Map<String, IPinterfejs> svi = r.getInterfaces();
-				for (Map.Entry<String, IPinterfejs> intf : svi.entrySet()) {
+				List<IPinterfejs> svi = r.getInterfaces();
+				for (IPinterfejs ip : svi){
 					ZbxHost h = new ZbxHost(r);
-					h.addInterface(intf.getKey(), intf.getValue());
+					h.setName(ip.getNaziv());
+					h.addInterface(ip);
+					h.setTemplejt(ip.getTemplejt());
 					hostovi.add(h);
 				}
 			}
 		}
-
 		
 		
-		for (ZbxHost h : hostovi) {
-			h.printYourself();
-		}
+		ZbxExport ze = new ZbxExport();
+		ze.sad(hostovi);
 		
 		
 	}
@@ -75,13 +77,13 @@ public class HelloApplication extends Application {
 			while ((linija = br.readLine()) != null) {
 				String[] field = linija.split(delimiter, -1);
 
-				Map<String, String> elementi = new LinkedHashMap<>();
+				Map<String, String> keyval = new LinkedHashMap<>();
 				for (int i = 0; i < header.length; i++) {
 					String k = stripQuote(header[i]);
 					String v = stripQuote(field[i]);
-					elementi.put(k, v);
+					keyval.put(k, v);
 				}
-				Record r = new Record(elementi);
+				Record r = new Record(keyval);
 
 				dataset.add(r);
 			}

@@ -2,53 +2,85 @@ package cc.kostic.zabbixhosts;
 
 import cc.kostic.zabbixhosts.datamodel.*;
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
+import cc.kostic.zabbixhosts.metadata.Templejt;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ZbxHost {
-	Map<String, IPinterfejs> sviIntf = new HashMap<>();
-	private static int intfRef = 0;
-	private Record record;
-
+	public Record record;
+	private String name;
+	public List<IPinterfejs> interfejsi = new ArrayList<>();
+	private int intRef = 1;
+	private Templejt.TPL templejt;
+	
+	public MapID mapID;
+	public Lokacija lokacija;
+	public Region region;
+	public Reg reg;
+	public Zona zona;
+	public Alot alot;
+	public LocID locID;
+	public Pristup pristup;
+	public MfnSfn mfnSfn;
+	public TipUredjaja tipUredjaja;
+	public PW pw;
+	public SIM sim;
+	public Opstina opstina;
+	public EPS eps;
+	public LAT lat;
+	public LON lon;
 	
 	public ZbxHost(Record record) {
 		this.record = record;
+		Map<String, String> keyval = record.keyval;
+		
+		mapID = new MapID(keyval, "MapID");
+		lokacija = new Lokacija(keyval, "Lokacija");
+		region = new Region(keyval, "Region");
+		reg = new Reg(keyval, "Reg");
+		zona = new Zona(keyval, "Zona");
+		alot = new Alot(keyval, "Alot");
+		locID = new LocID(keyval, "LocID");
+		pristup = new Pristup(keyval, "Pristup");
+		mfnSfn = new MfnSfn(keyval, "MFN/SFN");
+		tipUredjaja = new TipUredjaja(keyval, "Tip");
+		pw = new PW(keyval, "P(W)");
+		sim = new SIM(keyval, "SIM");
+		opstina = new Opstina(keyval, "Opština / MZ");
+		eps = new EPS(keyval, "EPS");
+		lat = new LAT(keyval, "Geografska širina");
+		lon = new LON(keyval, "Geografska dužina");
+		
+		
 	}
 	
 	
-	public void addInterface(String naziv, IPinterfejs intf){
-		intf.setInterfaceRef(intfRef);
-		intfRef++;
-		sviIntf.put(naziv, intf);
+	
+	public void addInterface(IPinterfejs intf){
+		intf.setInterfaceRef(intRef);
+		intRef++;
+		interfejsi.add(intf);
 	}
 	
-	public void printYourself(){
-		System.out.println(record.lokacija.toXml());
-		System.out.println(record.mapID.toXml());
-		
-		// <tags>
-		System.out.println(record.region.toXml());
-		System.out.println(record.reg.toXml());
-		System.out.println(record.zona.toXml());
-		System.out.println(record.alot.toXml());
-		System.out.println(record.locID.toXml());
-//		System.out.println(record.pristup.toXml());
-		System.out.println(record.mfnSfn.toXml());
-		System.out.println(record.tipUredjaja.toXml());
-		System.out.println(record.pw.toXml());
-		System.out.println(record.sim.toXml());
-		System.out.println(record.opstina.toXml());
-		System.out.println(record.eps.toXml());
-		// </tags>
-		
-		// <inventory>
-		System.out.println(record.lat.toXml());
-		System.out.println(record.lon.toXml());
-		// </inventory>
-		
-		System.out.println("<inventory_mode>AUTOMATIC</inventory_mode>");
-		
+	public Templejt.TPL getTemplejt() {
+		return templejt;
 	}
-
+	
+	public void setTemplejt(Templejt.TPL templejt) {
+		this.templejt = templejt;
+	}
+	
+	public String getNameAscii() {
+		return name;
+	}
+	public String getNameUtf() {
+		return name + "-utf";
+	}
+	
+	public void setName(String name) {
+		this.name = lokacija.getValue() + " " + name;
+	}
 }

@@ -2,16 +2,21 @@ package cc.kostic.zabbixhosts.datamodel;
 
 import cc.kostic.zabbixhosts.Config;
 import org.jetbrains.annotations.VisibleForTesting;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
-public abstract class Element {
+public abstract class CsvEL {
 	protected Map<String, String> elementi;
 	protected String csvHeader;
 	protected String csvValue;
 	
-	public Element(Map<String, String> elementi, String csvHeader) {
+	
+	public CsvEL(Map<String, String> elementi, String csvHeader) {
 		this.elementi = elementi;
 		this.csvHeader = csvHeader;
 		this.csvValue = elementi.get(csvHeader);
@@ -40,15 +45,8 @@ public abstract class Element {
 		return csvHeader + ", " + csvValue;
 	}
 	
-	//	public String toTag(String k, String v){
-//		String s =
-//				"<tag>" +
-//						"<tag>" + k + "</tag>" +
-//						"<value>" + v + "</value>" +
-//						"</tag>"
-//				;
-//		return s;
-//	}
+
+//	protected abstract List<Element> getElements(Document doc);
 	
 	
 	

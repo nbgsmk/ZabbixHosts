@@ -2,7 +2,7 @@ package cc.kostic.zabbixhosts.datamodel;
 
 import java.util.Map;
 
-public class LocID extends Element{
+public class LocID extends CsvEL {
 	
 	public LocID(Map<String, String> elementi, String csvHeader) {
 		super(elementi, csvHeader);

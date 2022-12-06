@@ -1,11 +1,8 @@
 package cc.kostic.zabbixhosts.datamodel;
 
-import cc.kostic.zabbixhosts.Record;
-
 import java.util.Map;
-import java.util.Set;
 
-public class Pristup extends Element{
+public class Pristup extends CsvEL {
 	
 	public enum TIP {NEMA, pristup3G, IPLink, HCLink, nepoznato}
 	
@@ -14,7 +11,7 @@ public class Pristup extends Element{
 		super(elementi, csvHeader);
 	}
 	
-	public TIP getTyp(){
+	public TIP getTip(){
 		switch (csvValue){
 			case "": 		return TIP.NEMA;
 			case "3G": 		return TIP.pristup3G;
@@ -27,7 +24,7 @@ public class Pristup extends Element{
 	@Override
 	public String toXml() {
 		String s = "";
-		TIP pr = getTyp();
+		TIP pr = getTip();
 		switch (pr){
 			case NEMA:
 				break;

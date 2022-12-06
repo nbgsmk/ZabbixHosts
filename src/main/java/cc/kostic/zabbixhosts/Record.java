@@ -2,16 +2,17 @@ package cc.kostic.zabbixhosts;
 
 import cc.kostic.zabbixhosts.datamodel.*;
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
-import cc.kostic.zabbixhosts.metadata.TEMPLEJT;
+import cc.kostic.zabbixhosts.metadata.Templejt;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Record {
-	private final Map<String, String> elementi;
-	private Map<String, IPinterfejs> sviInterfejsi;
+	public final Map<String, String> keyval;
+	
+	private List<IPinterfejs> interfejsi = new ArrayList<>();
+	private Templejt.TPL templejtZajednicki;
+	
 	public MapID mapID;
 	public Lokacija lokacija;
 	public Region region;
@@ -29,69 +30,74 @@ public class Record {
 	public LAT lat;
 	public LON lon;
 	
-	String klasa;
 	
-	public Record(Map<String, String> elementi) {
-		this.elementi = elementi;
-		mapID = new MapID(elementi, "MapID");
-		lokacija = new Lokacija(elementi, "Lokacija");
-		region = new Region(elementi, "Region");
-		reg = new Reg(elementi, "Reg");
-		zona = new Zona(elementi, "Zona");
-		alot = new Alot(elementi, "Alot");
-		locID = new LocID(elementi, "LocID");
-		pristup = new Pristup(elementi, "Pristup");
-		mfnSfn = new MfnSfn(elementi, "MFN/SFN");
-		tipUredjaja = new TipUredjaja(elementi, "Tip");
-		pw = new PW(elementi, "P(W)");
-		sim = new SIM(elementi, "SIM");
-		opstina = new Opstina(elementi, "Opština / MZ");
-		eps = new EPS(elementi, "EPS");
-		lat = new LAT(elementi, "Geografska širina");
-		lon = new LON(elementi, "Geografska dužina");
+	public Record(Map<String, String> keyval) {
+		this.keyval = keyval;
+		mapID = new MapID(keyval, "MapID");
+		lokacija = new Lokacija(keyval, "Lokacija");
+		region = new Region(keyval, "Region");
+		reg = new Reg(keyval, "Reg");
+		zona = new Zona(keyval, "Zona");
+		alot = new Alot(keyval, "Alot");
+		locID = new LocID(keyval, "LocID");
+		pristup = new Pristup(keyval, "Pristup");
+		mfnSfn = new MfnSfn(keyval, "MFN/SFN");
+		tipUredjaja = new TipUredjaja(keyval, "Tip");
+		pw = new PW(keyval, "P(W)");
+		sim = new SIM(keyval, "SIM");
+		opstina = new Opstina(keyval, "Opština / MZ");
+		eps = new EPS(keyval, "EPS");
+		lat = new LAT(keyval, "Geografska širina");
+		lon = new LON(keyval, "Geografska dužina");
 		
-		sviInterfejsi = createInterfaces();
+		interfejsi = createInterfaces();
 	}
 
 	
 	
 
-	public Map<String, IPinterfejs> getInterfaces(){
-		return sviInterfejsi;
+	public List<IPinterfejs> getInterfaces(){
+		return interfejsi;
 	}
 
 	
-	private Map<String, IPinterfejs> createInterfaces(){
-		Map<String, IPinterfejs> interfejsi = new HashMap<>();
-		TEMPLEJT.PROFIL ipProfil = TEMPLEJT.PROFIL.normalni;
+	private List<IPinterfejs> createInterfaces(){
+		List<IPinterfejs> interfejsi = new ArrayList<>();
+		Templejt.TPL tpl = Templejt.TPL.normalni;
 		String loc = locID.getNum();
 		String adr = "172.16." + locID.getNum();
 		
-		Pristup.TIP p = pristup.getTyp();
+		Pristup.TIP p = pristup.getTip();
 		if (p == Pristup.TIP.NEMA) {
-			return interfejsi;		// TODO mozda zabbix ocekuje null ako nema interfejsa
+			tpl = Templejt.TPL.nema;		// TODO ako nema interfejsa ceo nod <interfaces> se ne pojavljuje
+			return interfejsi;
 		} else if (p == Pristup.TIP.pristup3G) {
-			ipProfil = TEMPLEJT.PROFIL.pristup3G;
+			tpl = Templejt.TPL.pristup3G;
 		} else if (Config.velikih11.contains(lokacija.getValue())) {
-			ipProfil = TEMPLEJT.PROFIL.velikih11;
+			tpl = Templejt.TPL.velikih11;
 		}
 		
+		setTemplejtZajednicki(tpl);
 		
 		for (String kolona : Config.interfejsKolone) {
 			String esa = null;
-			String val = elementi.get(kolona);
+			String val = keyval.get(kolona);
 			
 			if (kolona.equalsIgnoreCase("Pristup")) {
 				esa = switchByKolonaPristup(p);
 				if ( (esa != null) && ( ! esa.isBlank()) ) {
-					IPinterfejs intf = new IPinterfejs(ipProfil, adr + esa);
-					interfejsi.put(val, intf);
+					IPinterfejs intf = new IPinterfejs(adr + esa);
+					intf.setNaziv(p.name());
+					intf.setTemplejt(tpl);
+					interfejsi.add(intf);
 				}
 				
 			} else if ( ! val.isBlank()){
 				esa = switchByOstaleKolone(kolona);
-				IPinterfejs intf = new IPinterfejs(ipProfil, adr + esa);
-				interfejsi.put(kolona, intf);
+				IPinterfejs intf = new IPinterfejs(adr + esa);
+				intf.setNaziv(kolona);
+				intf.setTemplejt(tpl);
+				interfejsi.add(intf);
 			}
 			
 		}
@@ -131,7 +137,7 @@ public class Record {
 				break;
 			
 			case "MUX2":
-				if (elementi.get("Tip").equals("Slx9k")) {
+				if (keyval.get("Tip").equals("Slx9k")) {
 					esa = ".161";
 				} else {
 					esa = ".162";
@@ -139,7 +145,7 @@ public class Record {
 				break;
 			
 			case "MUX3":
-				if (elementi.get("Tip").equals("Slx9k")) {
+				if (keyval.get("Tip").equals("Slx9k")) {
 					esa = ".161";
 				} else {
 					esa = ".163";
@@ -148,6 +154,12 @@ public class Record {
 		}
 		return esa;
 	}
-
 	
+	public Templejt.TPL getTemplejtZajednicki() {
+		return this.templejtZajednicki;
+	}
+	
+	public void setTemplejtZajednicki(Templejt.TPL templejtZajednicki) {
+		this.templejtZajednicki = templejtZajednicki;
+	}
 }

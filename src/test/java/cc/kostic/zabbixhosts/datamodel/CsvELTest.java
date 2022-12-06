@@ -2,12 +2,14 @@ package cc.kostic.zabbixhosts.datamodel;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.HashMap;
+
 import static org.junit.jupiter.api.Assertions.*;
 
-class ElementTest {
+class CsvELTest {
 	
 	// fejk objekat za testiranje
-	MapID m = new MapID("a", "b");
+	MapID m = new MapID(new HashMap<>(), "b");
 
 	@Test
 	void stripYu() {

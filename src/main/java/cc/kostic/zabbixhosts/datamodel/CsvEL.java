@@ -22,23 +22,7 @@ public abstract class CsvEL {
 		this.csvValue = elementi.get(csvHeader);
 	}
 	
-	public String toXml(){
-		String T = "\t";
-		String N = "\n";
-		if ( ! Config.PRETTY_PRINT ) {
-			T = "";
-			N = "";
-		}
-		
-		
-		String s =
-			"<tag>" + N +
-				T + "<tag>" + this.csvHeader + "</tag>" + N +
-				T + "<value>" + this.csvValue + "</value>" + N +
-			"</tag>"
-			;
-		return s;
-	};
+
 	
 	@Override
 	public String toString() {
@@ -46,9 +30,6 @@ public abstract class CsvEL {
 	}
 	
 
-//	protected abstract List<Element> getElements(Document doc);
-	
-	
 	
 	@VisibleForTesting
 	protected String stripYu(String s){

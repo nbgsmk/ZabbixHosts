@@ -8,12 +8,5 @@ public class LAT extends CsvEL {
 		super(elementi, csvHeader);
 	}
 	
-	@Override
-	public String toXml() {
-		if (csvValue != null) {
-			return "<location_lat>" + csvValue.trim() + "</location_lat>";
-		} else {
-			return "";
-		}
-	}
+
 }

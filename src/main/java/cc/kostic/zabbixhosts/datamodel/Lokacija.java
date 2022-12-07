@@ -18,21 +18,13 @@ public class Lokacija extends CsvEL {
 		this.nameAscii = stripYu(nameUtf);
 	}
 	
-
 	
-//	@Override
-	public List<Element> getElements(Document doc) {
-		List<Element> tmp = new ArrayList<>();
-		
-		Element lokacijaAsc = doc.createElement("host");				// ASCII naziv lokacije
-		lokacijaAsc.appendChild(doc.createTextNode(this.nameAscii));
-		tmp.add(lokacijaAsc);
-		
-		if ( ! nameUtf.equalsIgnoreCase(nameAscii) ) {
-			Element lokacijaUtf = doc.createElement("name");			// UTF naziv lokacije, ako postoji
-			lokacijaUtf.appendChild(doc.createTextNode(nameUtf));
-			tmp.add(lokacijaUtf);
-		}
-		return tmp;
+	
+	public String getNameAscii() {
+		return nameAscii;
+	}
+	
+	public String getNameUtf() {
+		return nameUtf;
 	}
 }

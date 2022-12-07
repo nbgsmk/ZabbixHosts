@@ -1,6 +1,7 @@
 package cc.kostic.zabbixhosts;
 
 import cc.kostic.zabbixhosts.datamodel.*;
+import cc.kostic.zabbixhosts.metadata.Grupe;
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
 import cc.kostic.zabbixhosts.metadata.Templejt;
 import org.jetbrains.annotations.Nullable;
@@ -12,6 +13,7 @@ public class Record {
 	
 	private List<IPinterfejs> interfejsi = new ArrayList<>();
 	private Templejt.TPL templejtZajednicki;
+	private List<Grupe.HOSTGRUPE> grupe = new ArrayList<>();
 	
 	public MapID mapID;
 	public Lokacija lokacija;
@@ -70,11 +72,15 @@ public class Record {
 		Pristup.TIP p = pristup.getTip();
 		if (p == Pristup.TIP.NEMA) {
 			tpl = Templejt.TPL.nema;		// TODO ako nema interfejsa ceo nod <interfaces> se ne pojavljuje
+			grupe.add(Grupe.HOSTGRUPE.grpNemaPristup);
 			return interfejsi;
 		} else if (p == Pristup.TIP.pristup3G) {
 			tpl = Templejt.TPL.pristup3G;
+			grupe.add(Grupe.HOSTGRUPE.grp3G);
 		} else if (Config.velikih11.contains(lokacija.getValue())) {
 			tpl = Templejt.TPL.velikih11;
+			grupe.add(Grupe.HOSTGRUPE.grpVelikih11);
+			
 		}
 		
 		setTemplejtZajednicki(tpl);
@@ -114,6 +120,7 @@ public class Record {
 			
 			case pristup3G:
 				esa = ".1";
+				grupe.add(Grupe.HOSTGRUPE.grp3G);
 				break;
 			
 			case IPLink:
@@ -161,5 +168,10 @@ public class Record {
 	
 	public void setTemplejtZajednicki(Templejt.TPL templejtZajednicki) {
 		this.templejtZajednicki = templejtZajednicki;
+	}
+	
+	
+	public List<Grupe.HOSTGRUPE> getGrupe() {
+		return grupe;
 	}
 }

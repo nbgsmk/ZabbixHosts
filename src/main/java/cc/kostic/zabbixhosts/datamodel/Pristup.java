@@ -21,35 +21,7 @@ public class Pristup extends CsvEL {
 		}
 	}
 	
-	@Override
-	public String toXml() {
-		String s = "";
-		TIP pr = getTip();
-		switch (pr){
-			case NEMA:
-				break;
-			case pristup3G:
-				s =
-					"<interfaces>" +
-					"  <interface>" +
-					"    <ip>172.16.84.1</ip>" +
-					"    <interface_ref>if1</interface_ref>" +
-					"  </interface>" +
-					"</interfaces>";
-			
-			case IPLink:
-				s =
-					"<interfaces>" +
-					"  <interface>" +
-					"    <ip>172.16.84.100</ip>" +
-					"    <interface_ref>if1</interface_ref>" +
-					"  </interface>" +
-					"</interfaces>";
-			
-		}
-		
-		return s;
-	}
+
 	
 
 }

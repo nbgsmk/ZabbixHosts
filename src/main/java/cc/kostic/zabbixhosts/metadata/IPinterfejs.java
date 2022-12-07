@@ -63,17 +63,13 @@ public class IPinterfejs {
 	public List<Element> getTemplates(Document doc){
 		List<Element> tmp = new ArrayList<>();
 		
-//		Element top = doc.createElement("templates");
 		Element tmpl = doc.createElement("template");
 		Element naziv = doc.createElement("name");
 		
-//		top.appendChild(tmpl);
 		tmpl.appendChild(naziv);
-		naziv.appendChild(doc.createTextNode("TODO templejt - nazivs string"));
+		naziv.appendChild(doc.createTextNode(getTemplejt().name()));
 		
-//		tmp.add(top);
 		tmp.add(tmpl);
-//		tmp.add(naziv);
 		return tmp;
 	}
 	

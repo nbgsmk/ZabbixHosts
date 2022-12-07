@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class ZbxHost {
 	public Record record;
-	private String name;
+	private String localName;
 	public List<IPinterfejs> interfejsi = new ArrayList<>();
 	private int intRef = 1;
 	private Templejt.TPL templejt;
@@ -65,6 +65,10 @@ public class ZbxHost {
 		interfejsi.add(intf);
 	}
 	
+	public List<IPinterfejs> getInterfejsi() {
+		return interfejsi;
+	}
+	
 	public Templejt.TPL getTemplejt() {
 		return templejt;
 	}
@@ -74,13 +78,13 @@ public class ZbxHost {
 	}
 	
 	public String getNameAscii() {
-		return name;
+		return lokacija.getNameAscii() + " " + localName;
 	}
 	public String getNameUtf() {
-		return name + "-utf";
+		return lokacija.getNameUtf() + " " + localName;
 	}
 	
-	public void setName(String name) {
-		this.name = lokacija.getValue() + " " + name;
+	public void setName(String localName) {
+		this.localName = localName;
 	}
 }

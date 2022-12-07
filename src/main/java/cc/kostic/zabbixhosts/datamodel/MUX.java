@@ -8,8 +8,5 @@ public class MUX extends CsvEL {
 		super(elementi, csvHeader);
 	}
 	
-	@Override
-	public String toXml() {
-		return "TODO";
-	}
+
 }

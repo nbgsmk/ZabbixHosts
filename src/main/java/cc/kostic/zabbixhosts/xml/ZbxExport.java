@@ -2,6 +2,7 @@ package cc.kostic.zabbixhosts.xml;
 
 import cc.kostic.zabbixhosts.Config;
 import cc.kostic.zabbixhosts.ZbxHost;
+import cc.kostic.zabbixhosts.metadata.Grupe;
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
@@ -80,25 +81,43 @@ public class ZbxExport {
 				if (Config.currentMode == Config.MODE.SVAKI_MUX_POSEBAN_HOST) {
 					
 					// lokacija tj naziv hosta - specijalan slucaj zbog ascii/utf kojeg zabbix prihvata
-					String naziv = h.getNameAscii();
 					Element hostAscii = doc.createElement("host");
 					hostAscii.appendChild(doc.createTextNode(h.getNameAscii()));
 					jedanHost.appendChild(hostAscii);
 					
-					Element hostUtf = doc.createElement("name");
-					hostUtf.appendChild(doc.createTextNode(h.getNameUtf()));
-					jedanHost.appendChild(hostUtf);
+					String nazivA = h.getNameAscii();
+					String nazivU = h.getNameUtf();
+					if ( ! nazivA.equalsIgnoreCase(nazivU)) {
+						Element hostUtf = doc.createElement("name");
+						hostUtf.appendChild(doc.createTextNode(h.getNameUtf()));
+						jedanHost.appendChild(hostUtf);
+					}
 					
 					
 					// templates
 					Element templejts = doc.createElement("templates");
-					List<IPinterfejs> interfejsi = h.record.getInterfaces();
+					List<IPinterfejs> interfejsi = h.getInterfejsi();
 					for (IPinterfejs ip : interfejsi) {
 						for (Element el : ip.getTemplates(doc)) {
 							templejts.appendChild(el);
 						}
 					}
 					jedanHost.appendChild(templejts);
+					
+					
+					// groups
+					// templates
+					Element grupe = doc.createElement("groups");
+					List<Grupe.HOSTGRUPE> hostGrupe = h.record.getGrupe();
+					for (Grupe.HOSTGRUPE grp : hostGrupe) {
+						Element el = doc.createElement("group");
+						Element name = doc.createElement("name");
+						el.appendChild(name);
+						name.appendChild(doc.createTextNode(grp.name()));
+						grupe.appendChild(el);
+					}
+					jedanHost.appendChild(grupe);
+					
 					
 					// interfaces
 					Element interfaces = doc.createElement("interfaces");
@@ -112,11 +131,19 @@ public class ZbxExport {
 				
 				if (Config.currentMode == Config.MODE.SVI_MUX_U_ISTI_HOST) {
 					
-					// lokacija tj naziv hosta
-					for (Element el : h.record.lokacija.getElements(doc)) {
-						jedanHost.appendChild(el);
-					}
+					// lokacija tj naziv hosta - specijalan slucaj zbog ascii/utf kojeg zabbix prihvata
+					Element hostAscii = doc.createElement("host");
+					hostAscii.appendChild(doc.createTextNode(h.getNameAscii()));
+					jedanHost.appendChild(hostAscii);
 					
+					String nazivA = h.getNameAscii();
+					String nazivU = h.getNameUtf();
+					if ( ! nazivA.equalsIgnoreCase(nazivU)) {
+						Element hostUtf = doc.createElement("name");
+						hostUtf.appendChild(doc.createTextNode(h.getNameUtf()));
+						jedanHost.appendChild(hostUtf);
+					}
+
 					// templates
 					Element templejts = doc.createElement("templates");
 					templejts.appendChild(doc.createTextNode(h.record.getTemplejtZajednicki().name()));

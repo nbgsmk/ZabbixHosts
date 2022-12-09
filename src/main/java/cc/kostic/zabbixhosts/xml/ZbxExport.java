@@ -4,7 +4,7 @@ import cc.kostic.zabbixhosts.Config;
 import cc.kostic.zabbixhosts.ZbxHost;
 import cc.kostic.zabbixhosts.metadata.Grupe;
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
-import org.w3c.dom.Attr;
+import cc.kostic.zabbixhosts.metadata.XmlTag;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -19,10 +19,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.time.Instant;
-import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 
 public class ZbxExport {
@@ -57,15 +54,16 @@ public class ZbxExport {
 			rootElement.appendChild(groups);
 //			groups.setAttribute("id", "1");		// <groups id="1">
 			
-				// groups
-				Element group;
+				// group 3G
+				Element group, grpuuid, grpname;
 				group = doc.createElement("group");
-				group.appendChild(doc.createTextNode("TODO group 3G"));		// TODO group uuid
-				groups.appendChild(group);
-				
-				// firstname elements
-				group = doc.createElement("group");
-				group.appendChild(doc.createTextNode("TODO group DVB-T2"));		// TODO group uuid
+				grpuuid = doc.createElement("uuid");
+				grpname = doc.createElement("name");
+
+				group.appendChild(grpuuid);
+				group.appendChild(grpname);
+				grpuuid.appendChild(doc.createTextNode("TODO abc group uuid"));		// TODO group uuid
+				grpname.appendChild(doc.createTextNode("TODO 3G group name"));		// TODO group name
 				groups.appendChild(group);
 				
 			
@@ -127,6 +125,19 @@ public class ZbxExport {
 						}
 					}
 					jedanHost.appendChild(interfaces);
+					
+					
+					// tagovi
+					for (XmlTag jedanTag : h.getTagovi()) {
+						jedanHost.appendChild(jedanTag.getElement(doc));
+					}
+					
+					// inventory = coordinates
+					Element inventar = doc.createElement("inventory");
+					for (Element geoEl : h.getGeo().getElement(doc)) {
+						inventar.appendChild(geoEl);
+					}
+					jedanHost.appendChild(inventar);
 				}
 				
 				if (Config.currentMode == Config.MODE.SVI_MUX_U_ISTI_HOST) {
@@ -158,18 +169,6 @@ public class ZbxExport {
 					}
 					jedanHost.appendChild(interfaces);
 				}
-				
-				
-
-				
-				
-//				Element lokacijaAsc = doc.createElement("host");
-//				Element lokacijaUtf = doc.createElement("name");
-//				lokacijaAsc.appendChild(doc.createTextNode(h.record.lokacija.getValue()));
-//				lokacijaUtf.appendChild(doc.createTextNode(h.record.lokacija.getValue() + "-utf"));
-//				host.appendChild("host");
-//				host.appendChild(doc.createElement(h.record.lokacija.getValue()));
-//				host.appendChild(doc.createTextNode("TODO host 1"));
 
 				hosts.appendChild(jedanHost);
 			

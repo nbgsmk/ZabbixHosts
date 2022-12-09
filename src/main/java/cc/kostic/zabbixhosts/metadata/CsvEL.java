@@ -1,4 +1,4 @@
-package cc.kostic.zabbixhosts.datamodel;
+package cc.kostic.zabbixhosts.metadata;
 
 import cc.kostic.zabbixhosts.Config;
 import org.jetbrains.annotations.VisibleForTesting;
@@ -32,7 +32,7 @@ public abstract class CsvEL {
 
 	
 	@VisibleForTesting
-	protected String stripYu(String s){
+	public String stripYu(String s){
 //		return removeDiacriticalMarks(s);
 		s = s.replace("Š", "S");
 		s = s.replace("š", "s");

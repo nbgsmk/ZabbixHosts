@@ -1,10 +1,7 @@
 package cc.kostic.zabbixhosts.datamodel;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
+import cc.kostic.zabbixhosts.metadata.CsvEL;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class Lokacija extends CsvEL {

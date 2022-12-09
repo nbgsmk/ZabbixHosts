@@ -25,8 +25,7 @@ public class Config {
 	));
 	
 	public static boolean CREATE_EMPTY_HOSTS = true;
-	public static boolean PRETTY_PRINT = true;
-//	public static boolean PRETTY_PRINT = false;
+
 	
 	public static final Set<String> velikih11 = new HashSet<>(Arrays.asList(
 			"Avala",

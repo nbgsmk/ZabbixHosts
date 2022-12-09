@@ -1,8 +1,10 @@
 package cc.kostic.zabbixhosts.datamodel;
 
+import cc.kostic.zabbixhosts.metadata.XmlTag;
+
 import java.util.Map;
 
-public class Pristup extends CsvEL {
+public class Pristup extends XmlTag {
 	
 	public enum TIP {NEMA, pristup3G, IPLink, HCLink, nepoznato}
 	

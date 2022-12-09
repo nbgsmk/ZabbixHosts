@@ -1,6 +1,7 @@
 package cc.kostic.zabbixhosts;
 
 import cc.kostic.zabbixhosts.datamodel.*;
+import cc.kostic.zabbixhosts.metadata.Geo;
 import cc.kostic.zabbixhosts.metadata.Grupe;
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
 import cc.kostic.zabbixhosts.metadata.Templejt;
@@ -116,6 +117,7 @@ public class Record {
 		switch (p){
 			case NEMA:
 				esa = null;
+				grupe.add(Grupe.HOSTGRUPE.grpNemaPristup);
 				break;
 			
 			case pristup3G:
@@ -125,10 +127,13 @@ public class Record {
 			
 			case IPLink:
 				esa = ".100";
+				grupe.add(Grupe.HOSTGRUPE.grpIPLink);
+				
 				break;
 			
 			case HCLink:
 				esa = null;
+				grupe.add(Grupe.HOSTGRUPE.grpHCLink);
 				break;
 			default:
 				throw new RuntimeException("nepoznata vrsta pristupa sajtu u klasi " + this.getClass());
@@ -141,6 +146,7 @@ public class Record {
 		switch (k){
 			case "MUX1":
 				esa  = ".161";
+				grupe.add(Grupe.HOSTGRUPE.grpDVBT);
 				break;
 			
 			case "MUX2":
@@ -149,6 +155,7 @@ public class Record {
 				} else {
 					esa = ".162";
 				}
+				grupe.add(Grupe.HOSTGRUPE.grpDVBT);
 				break;
 			
 			case "MUX3":
@@ -157,6 +164,7 @@ public class Record {
 				} else {
 					esa = ".163";
 				}
+				grupe.add(Grupe.HOSTGRUPE.grpDVBT);
 				break;
 		}
 		return esa;

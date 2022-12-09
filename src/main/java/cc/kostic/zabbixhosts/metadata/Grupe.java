@@ -4,8 +4,12 @@ public class Grupe {
 	
 	public enum HOSTGRUPE {
 		grp3G,
-		grpVelikih11,
+		grpIPLink,
+		grpHCLink,
 		grpAgregati,
+		grpUPS,
+		grpDVBT,
+		grpVelikih11,
 		grpNemaPristup
 		
 	}

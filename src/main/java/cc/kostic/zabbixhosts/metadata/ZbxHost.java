@@ -1,8 +1,9 @@
-package cc.kostic.zabbixhosts;
+package cc.kostic.zabbixhosts.metadata;
 
 import cc.kostic.zabbixhosts.datamodel.*;
 import cc.kostic.zabbixhosts.metadata.Geo;
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
+import cc.kostic.zabbixhosts.metadata.Record;
 import cc.kostic.zabbixhosts.metadata.XmlTag;
 import cc.kostic.zabbixhosts.metadata.Templejt;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ZbxHost {
-	public Record record;
+	public cc.kostic.zabbixhosts.metadata.Record record;
 	private String localName;
 	public List<IPinterfejs> interfejsi = new ArrayList<>();
 	private List<XmlTag> tagovi = new ArrayList<>();
@@ -57,16 +58,16 @@ public class ZbxHost {
 		
 		
 		tagovi.add(alot);
-		tagovi.add(eps);
+//		tagovi.add(eps);
 		tagovi.add(locID);
-		tagovi.add(mapID);
+//		tagovi.add(mapID);
 		tagovi.add(mfnSfn);
 		tagovi.add(opstina);
 		tagovi.add(pristup);
-		tagovi.add(pw);
+//		tagovi.add(pw);
 		tagovi.add(reg);
 		tagovi.add(region);
-		tagovi.add(sim);
+//		tagovi.add(sim);
 		tagovi.add(tipUredjaja);
 		tagovi.add(zona);
 		

@@ -1,7 +1,7 @@
 package cc.kostic.zabbixhosts.xml;
 
 import cc.kostic.zabbixhosts.Config;
-import cc.kostic.zabbixhosts.ZbxHost;
+import cc.kostic.zabbixhosts.metadata.ZbxHost;
 import cc.kostic.zabbixhosts.metadata.Grupe;
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
 import cc.kostic.zabbixhosts.metadata.XmlTag;
@@ -19,14 +19,20 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalUnit;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 
 
 public class ZbxExport {
 	private String fajl = "D:\\Instalacije_nove\\ETV\\Zabbix\\zx.xml";
 	
 	public void sad(List<ZbxHost> hostovi) {
-		
+		ZbxHost htmp = null;
 		try {
 			
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -43,29 +49,34 @@ public class ZbxExport {
 			rootElement.appendChild(ver);
 			
 			// datum
+			Instant utc = Instant.now().truncatedTo(ChronoUnit.SECONDS);
 			Element datum = doc.createElement("date");
-			datum.appendChild(doc.createTextNode(Instant.now().toString()));		// UTC vreme
-//			datum.appendChild(doc.createTextNode(ZonedDateTime.now().toString()));	// zona Europe/Budapest, lokalno vreme
+			datum.appendChild(doc.createTextNode(Instant.now().truncatedTo(ChronoUnit.SECONDS).toString()));	// UTC vreme
+//			datum.appendChild(doc.createTextNode(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS).toString()));	// zona Europe/Budapest, lokalno vreme
 			rootElement.appendChild(datum);
 			
 			// groups
 			Element groups;
 			groups = doc.createElement("groups");
 			rootElement.appendChild(groups);
-//			groups.setAttribute("id", "1");		// <groups id="1">
 			
-				// group 3G
-				Element group, grpuuid, grpname;
+			
+			boolean grpUuidPrint = true;
+			Element group, grpuuid, grpname;
+			for (Grupe.HOSTGRUPE grpitem : Grupe.HOSTGRUPE.values()) {
 				group = doc.createElement("group");
-				grpuuid = doc.createElement("uuid");
+				if (grpUuidPrint) {
+					grpuuid = doc.createElement("uuid");
+					grpuuid.appendChild(doc.createTextNode(UUID.randomUUID().toString().replace("-", "")));
+					group.appendChild(grpuuid);
+				}
 				grpname = doc.createElement("name");
-
-				group.appendChild(grpuuid);
+				grpname.appendChild(doc.createTextNode(grpitem.name()));
 				group.appendChild(grpname);
-				grpuuid.appendChild(doc.createTextNode("TODO abc group uuid"));		// TODO group uuid
-				grpname.appendChild(doc.createTextNode("TODO 3G group name"));		// TODO group name
-				groups.appendChild(group);
 				
+				groups.appendChild(group);
+			}
+		
 			
 			// hosts = svi hostovi
 			Element hosts;
@@ -74,6 +85,7 @@ public class ZbxExport {
 			
 			// host
 			for (ZbxHost h : hostovi) {
+				htmp = h;
 				Element jedanHost = doc.createElement("host");
 				
 				if (Config.currentMode == Config.MODE.SVAKI_MUX_POSEBAN_HOST) {
@@ -106,7 +118,7 @@ public class ZbxExport {
 					// groups
 					// templates
 					Element grupe = doc.createElement("groups");
-					List<Grupe.HOSTGRUPE> hostGrupe = h.record.getGrupe();
+					Set<Grupe.HOSTGRUPE> hostGrupe = h.record.getGrupe();
 					for (Grupe.HOSTGRUPE grp : hostGrupe) {
 						Element el = doc.createElement("group");
 						Element name = doc.createElement("name");
@@ -128,9 +140,11 @@ public class ZbxExport {
 					
 					
 					// tagovi
+					Element tagovi = doc.createElement("tags");
 					for (XmlTag jedanTag : h.getTagovi()) {
-						jedanHost.appendChild(jedanTag.getElement(doc));
+						tagovi.appendChild(jedanTag.getElement(doc));
 					}
+					jedanHost.appendChild(tagovi);
 					
 					// inventory = coordinates
 					Element inventar = doc.createElement("inventory");
@@ -196,7 +210,17 @@ public class ZbxExport {
 			pce.printStackTrace();
 		} catch (TransformerException tfe) {
 			tfe.printStackTrace();
+		} catch (RuntimeException re) {
+			re.printStackTrace();
+			System.out.println(htmp.lokacija.getNameUtf() + " " + re.getMessage());
+			System.out.println(re.getClass());
+			System.out.println(htmp.record.keyval);
 		}
 	}
 	
 }
+
+// TODO utf ulazni fajl
+// TODO ? u imenu
+// TODO zagrade () u imenu
+// TODO ip adrese 15*, 86*

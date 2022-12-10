@@ -1,10 +1,7 @@
-package cc.kostic.zabbixhosts;
+package cc.kostic.zabbixhosts.metadata;
 
+import cc.kostic.zabbixhosts.Config;
 import cc.kostic.zabbixhosts.datamodel.*;
-import cc.kostic.zabbixhosts.metadata.Geo;
-import cc.kostic.zabbixhosts.metadata.Grupe;
-import cc.kostic.zabbixhosts.metadata.IPinterfejs;
-import cc.kostic.zabbixhosts.metadata.Templejt;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
@@ -14,7 +11,7 @@ public class Record {
 	
 	private List<IPinterfejs> interfejsi = new ArrayList<>();
 	private Templejt.TPL templejtZajednicki;
-	private List<Grupe.HOSTGRUPE> grupe = new ArrayList<>();
+	private Set<Grupe.HOSTGRUPE> grupe = new HashSet<>();
 	
 	public MapID mapID;
 	public Lokacija lokacija;
@@ -66,21 +63,21 @@ public class Record {
 	
 	private List<IPinterfejs> createInterfaces(){
 		List<IPinterfejs> interfejsi = new ArrayList<>();
-		Templejt.TPL tpl = Templejt.TPL.normalni;
+		Templejt.TPL tpl = Templejt.TPL.tpl_Normalni;
 		String loc = locID.getNum();
 		String adr = "172.16." + locID.getNum();
 		
 		Pristup.TIP p = pristup.getTip();
 		if (p == Pristup.TIP.NEMA) {
-			tpl = Templejt.TPL.nema;		// TODO ako nema interfejsa ceo nod <interfaces> se ne pojavljuje
-			grupe.add(Grupe.HOSTGRUPE.grpNemaPristup);
+			tpl = Templejt.TPL.tpl_Nema;		// TODO ako nema interfejsa ceo nod <interfaces> se ne pojavljuje
+			grupe.add(Grupe.HOSTGRUPE.grp_NemaPristup);
 			return interfejsi;
 		} else if (p == Pristup.TIP.pristup3G) {
-			tpl = Templejt.TPL.pristup3G;
-			grupe.add(Grupe.HOSTGRUPE.grp3G);
+			tpl = Templejt.TPL.tpl_Pristup3G;
+			grupe.add(Grupe.HOSTGRUPE.grp_3G);
 		} else if (Config.velikih11.contains(lokacija.getValue())) {
-			tpl = Templejt.TPL.velikih11;
-			grupe.add(Grupe.HOSTGRUPE.grpVelikih11);
+			tpl = Templejt.TPL.tpl_Velikih11;
+			grupe.add(Grupe.HOSTGRUPE.grp_Velikih11);
 			
 		}
 		
@@ -91,7 +88,7 @@ public class Record {
 			String val = keyval.get(kolona);
 			
 			if (kolona.equalsIgnoreCase("Pristup")) {
-				esa = switchByKolonaPristup(p);
+				esa = switch_case_byKolonaPristup(p);
 				if ( (esa != null) && ( ! esa.isBlank()) ) {
 					IPinterfejs intf = new IPinterfejs(adr + esa);
 					intf.setNaziv(p.name());
@@ -100,7 +97,7 @@ public class Record {
 				}
 				
 			} else if ( ! val.isBlank()){
-				esa = switchByOstaleKolone(kolona);
+				esa = switch_case_byOstaleKolone(kolona);
 				IPinterfejs intf = new IPinterfejs(adr + esa);
 				intf.setNaziv(kolona);
 				intf.setTemplejt(tpl);
@@ -112,28 +109,28 @@ public class Record {
 	}
 	
 
-	private @Nullable String switchByKolonaPristup(Pristup.TIP p){
+	private @Nullable String switch_case_byKolonaPristup(Pristup.TIP p){
 		String esa = null;
 		switch (p){
 			case NEMA:
 				esa = null;
-				grupe.add(Grupe.HOSTGRUPE.grpNemaPristup);
+				grupe.add(Grupe.HOSTGRUPE.grp_NemaPristup);
 				break;
 			
 			case pristup3G:
 				esa = ".1";
-				grupe.add(Grupe.HOSTGRUPE.grp3G);
+				grupe.add(Grupe.HOSTGRUPE.grp_3G);
 				break;
 			
 			case IPLink:
 				esa = ".100";
-				grupe.add(Grupe.HOSTGRUPE.grpIPLink);
+				grupe.add(Grupe.HOSTGRUPE.grp_IPLink);
 				
 				break;
 			
 			case HCLink:
 				esa = null;
-				grupe.add(Grupe.HOSTGRUPE.grpHCLink);
+				grupe.add(Grupe.HOSTGRUPE.grp_HCLink);
 				break;
 			default:
 				throw new RuntimeException("nepoznata vrsta pristupa sajtu u klasi " + this.getClass());
@@ -141,12 +138,12 @@ public class Record {
 		return esa;
 	}
 	
-	private @Nullable String switchByOstaleKolone(String k){
+	private @Nullable String switch_case_byOstaleKolone(String k){
 		String esa = null;
 		switch (k){
 			case "MUX1":
 				esa  = ".161";
-				grupe.add(Grupe.HOSTGRUPE.grpDVBT);
+				grupe.add(Grupe.HOSTGRUPE.grp_DVBT);
 				break;
 			
 			case "MUX2":
@@ -155,7 +152,7 @@ public class Record {
 				} else {
 					esa = ".162";
 				}
-				grupe.add(Grupe.HOSTGRUPE.grpDVBT);
+				grupe.add(Grupe.HOSTGRUPE.grp_DVBT);
 				break;
 			
 			case "MUX3":
@@ -164,7 +161,7 @@ public class Record {
 				} else {
 					esa = ".163";
 				}
-				grupe.add(Grupe.HOSTGRUPE.grpDVBT);
+				grupe.add(Grupe.HOSTGRUPE.grp_DVBT);
 				break;
 		}
 		return esa;
@@ -179,7 +176,7 @@ public class Record {
 	}
 	
 	
-	public List<Grupe.HOSTGRUPE> getGrupe() {
+	public Set<Grupe.HOSTGRUPE> getGrupe() {
 		return grupe;
 	}
 }

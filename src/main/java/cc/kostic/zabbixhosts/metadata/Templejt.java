@@ -3,10 +3,10 @@ package cc.kostic.zabbixhosts.metadata;
 public class Templejt {
 	
 	public enum TPL {
-		normalni,
-		pristup3G,
-		velikih11,
-		nema
+		tpl_Normalni,
+		tpl_Pristup3G,
+		tpl_Velikih11,
+		tpl_Nema
 	}
 	
 	public TPL naziv;

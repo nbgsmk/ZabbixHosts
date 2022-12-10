@@ -9,4 +9,6 @@ module cc.kostic.zbxhosts {
 	
 	opens cc.kostic.zabbixhosts to javafx.fxml;
 	exports cc.kostic.zabbixhosts;
+	exports cc.kostic.zabbixhosts.metadata;
+	opens cc.kostic.zabbixhosts.metadata to javafx.fxml;
 }

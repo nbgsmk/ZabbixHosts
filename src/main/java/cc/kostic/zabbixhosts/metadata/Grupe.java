@@ -3,14 +3,14 @@ package cc.kostic.zabbixhosts.metadata;
 public class Grupe {
 	
 	public enum HOSTGRUPE {
-		grp3G,
-		grpIPLink,
-		grpHCLink,
-		grpAgregati,
-		grpUPS,
-		grpDVBT,
-		grpVelikih11,
-		grpNemaPristup
+		grp_3G,
+		grp_IPLink,
+		grp_HCLink,
+		grp_Agregati,
+		grp_UPS,
+		grp_DVBT,
+		grp_Velikih11,
+		grp_NemaPristup
 		
 	}
 	private String name;

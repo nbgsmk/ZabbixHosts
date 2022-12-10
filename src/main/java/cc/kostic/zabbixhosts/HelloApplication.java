@@ -1,14 +1,17 @@
 package cc.kostic.zabbixhosts;
 
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
+import cc.kostic.zabbixhosts.metadata.Record;
+import cc.kostic.zabbixhosts.metadata.ZbxHost;
 import cc.kostic.zabbixhosts.xml.ZbxExport;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.CharacterCodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class HelloApplication extends Application {
@@ -22,14 +25,15 @@ public class HelloApplication extends Application {
 //		stage.show();
 		
 		
-//		String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022.csv";
-		String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022-DEMO.csv";
+		String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022.csv";
+//		String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022-DEMO.csv";
 		String delimiter = ",";
 		List<Record> rekordi = readCSV(csvFile, delimiter);
 		List<ZbxHost> hostovi = new ArrayList<>();
 		
 	
 		for (Record r : rekordi) {
+//			System.out.println(r.keyval.toString());
 			if (Config.currentMode == Config.MODE.SVI_MUX_U_ISTI_HOST) {
 				ZbxHost h = new ZbxHost(r);
 				List<IPinterfejs> svi = r.getInterfaces();
@@ -51,10 +55,8 @@ public class HelloApplication extends Application {
 			}
 		}
 		
-		
 		ZbxExport ze = new ZbxExport();
 		ze.sad(hostovi);
-		
 		
 	}
 	
@@ -66,8 +68,25 @@ public class HelloApplication extends Application {
 	
 	
 	private List<Record> readCSV(String fajl, String delimiter) {
+		
+		Path path = Paths.get(fajl);
+		try (Reader reader = Files.newBufferedReader(path)) {
+			int c = reader.read();
+			if (c == 0xfeff) {
+				System.out.println("Cini se kao UTF-8. Valjda. Idemo dalje.");
+			} else if (c >= 0) {
+				System.out.println("Fajl BOM = " + c + ", sto ne lici na UTF-8, ali probacemo da idemo dalje.");
+				reader.transferTo(Writer.nullWriter());
+			}
+		} catch (CharacterCodingException e) {
+			System.out.println("NIJE UTF-8 ! " + fajl);
+			System.out.println("izlazim!");
+			System.exit(1);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		
 		List<Record> dataset = new ArrayList<>();
-
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(fajl));
 

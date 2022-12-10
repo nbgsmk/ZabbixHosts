@@ -29,6 +29,5 @@ class GeoTest {
 		assertEquals(44.008335f, g.convert("44°0'30"));
 		assertEquals(44.008335f, g.convert("44°00'30.00"));
 		assertEquals(44.000126f, g.convert("44°0'00.45"));
-//		assertEquals(44.5, g.convert("44°30'25.01"));
 	}
 }

@@ -48,6 +48,8 @@ public abstract class CsvEL {
 
 		s = s.replaceAll("Ž", "Z");
 		s = s.replaceAll("ž", "z");
+		
+		s = s.replaceAll("['()']", "");
 
 		s = stripLeadingTrailingDots(s);
 		return s;

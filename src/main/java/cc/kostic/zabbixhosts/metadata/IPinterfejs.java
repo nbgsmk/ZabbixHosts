@@ -16,7 +16,7 @@ public class IPinterfejs {
 	public String detailsCommunity;
 	public int interfaceRef;
 	public String naziv;
-	private Templejt.TPL templejt;
+	private Templejt templejt;
 	
 	public IPinterfejs(String adresa) {
 		this.adresa = adresa;
@@ -52,11 +52,11 @@ public class IPinterfejs {
 		this.interfaceRef = interfaceRef;
 	}
 	
-	public Templejt.TPL getTemplejt() {
+	public Templejt getTemplejt() {
 		return templejt;
 	}
 	
-	public void setTemplejt(Templejt.TPL templejt) {
+	public void setTemplejt(Templejt templejt) {
 		this.templejt = templejt;
 	}
 	
@@ -67,7 +67,7 @@ public class IPinterfejs {
 		Element naziv = doc.createElement("name");
 		
 		tmpl.appendChild(naziv);
-		naziv.appendChild(doc.createTextNode(getTemplejt().name()));
+		naziv.appendChild(doc.createTextNode(getTemplejt().getNaziv()));
 		
 		tmp.add(tmpl);
 		return tmp;

@@ -3,6 +3,8 @@ package cc.kostic.zabbixhosts.datamodel;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,5 +37,22 @@ class CsvELTest {
 	@Test
 	void removeDiacriticalMarksTest() {
 		assertEquals("Gracisce", m.removeDiacriticalMarks("Gračišće"));
+	}
+	
+	
+	@Test
+	void patkaZecTest(){
+		Pattern p = Pattern.compile(".s");//. represents single character
+		Matcher m = p.matcher("as");
+		boolean b1 = m.matches();
+  
+		//2nd way
+		boolean b2=Pattern.compile(".s").matcher("as").matches();
+		
+		//3rd way
+		boolean b3 = Pattern.matches(".s", "as");
+		
+		System.out.println(b1+" "+b2+" "+b3);
+		
 	}
 }

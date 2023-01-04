@@ -11,7 +11,6 @@ class WriteXMLFileTest {
 //		WriteXMLFile wx = new WriteXMLFile();
 //		wx.sad();
 		
-		ZbxExportDemo zxd = new ZbxExportDemo();
-		zxd.sad();
+
 	}
 }

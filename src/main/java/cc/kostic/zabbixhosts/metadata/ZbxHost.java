@@ -17,7 +17,7 @@ public class ZbxHost {
 	public List<IPinterfejs> interfejsi = new ArrayList<>();
 	private List<XmlTag> tagovi = new ArrayList<>();
 	private int intRef = 1;
-	private Templejt.TPL templejt;
+	private Templejt templejt;
 	
 	public MapID mapID;
 	public Lokacija lokacija;
@@ -89,11 +89,11 @@ public class ZbxHost {
 		return interfejsi;
 	}
 	
-	public Templejt.TPL getTemplejt() {
+	public Templejt getTemplejt() {
 		return templejt;
 	}
 	
-	public void setTemplejt(Templejt.TPL templejt) {
+	public void setTemplejt(Templejt templejt) {
 		this.templejt = templejt;
 	}
 	

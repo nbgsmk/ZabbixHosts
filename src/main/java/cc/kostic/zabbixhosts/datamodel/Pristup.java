@@ -6,7 +6,12 @@ import java.util.Map;
 
 public class Pristup extends XmlTag {
 	
-	public enum TIP {NEMA, pristup3G, IPLink, HCLink, nepoznato}
+	public enum TIP {
+		NEMA,
+		pristup3G,
+		IPLink,
+		HCLink
+	}
 	
 	
 	public Pristup(Map<String, String> elementi, String csvHeader) {
@@ -19,7 +24,7 @@ public class Pristup extends XmlTag {
 			case "3G": 		return TIP.pristup3G;
 			case "IP Lnk":	return TIP.IPLink;
 			case "Lnk":		return TIP.HCLink;
-			default:		return TIP.nepoznato;
+			default:		return null;
 		}
 	}
 	

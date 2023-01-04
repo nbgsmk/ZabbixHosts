@@ -33,25 +33,13 @@ public class HelloApplication extends Application {
 		
 	
 		for (Record r : rekordi) {
-//			System.out.println(r.keyval.toString());
-			if (Config.currentMode == Config.MODE.SVI_MUX_U_ISTI_HOST) {
+			List<IPinterfejs> svi = r.getInterfaces();
+			for (IPinterfejs ip : svi){
 				ZbxHost h = new ZbxHost(r);
-				List<IPinterfejs> svi = r.getInterfaces();
-				for (IPinterfejs ip : svi){
-					h.addInterface(ip);
-				}
-				h.setTemplejt(r.getTemplejtZajednicki());
+				h.setName(ip.getNaziv());
+				h.addInterface(ip);
+				h.setTemplejt(ip.getTemplejt());
 				hostovi.add(h);
-			}
-			if (Config.currentMode == Config.MODE.SVAKI_MUX_POSEBAN_HOST) {
-				List<IPinterfejs> svi = r.getInterfaces();
-				for (IPinterfejs ip : svi){
-					ZbxHost h = new ZbxHost(r);
-					h.setName(ip.getNaziv());
-					h.addInterface(ip);
-					h.setTemplejt(ip.getTemplejt());
-					hostovi.add(h);
-				}
 			}
 		}
 		
@@ -75,7 +63,7 @@ public class HelloApplication extends Application {
 			if (c == 0xfeff) {
 				System.out.println("Cini se kao UTF-8. Valjda. Idemo dalje.");
 			} else if (c >= 0) {
-				System.out.println("Fajl BOM = " + c + ", sto ne lici na UTF-8, ali probacemo da idemo dalje.");
+				System.out.println("Fajl BOM = " + c + ", to ne lici na UTF-8, ali probacemo da idemo dalje.");
 				reader.transferTo(Writer.nullWriter());
 			}
 		} catch (CharacterCodingException e) {
@@ -90,16 +78,24 @@ public class HelloApplication extends Application {
 		try {
 			BufferedReader br = new BufferedReader(new FileReader(fajl));
 
+			// prva linija je header
 			String linija = br.readLine();
 			String[] header = linija.split(delimiter, -1);
 
+			// druga i sve ostale linije sadrze podatke
 			while ((linija = br.readLine()) != null) {
-				String[] field = linija.split(delimiter, -1);
-
+				String[] fields = linija.split(delimiter, -1);
+				
+				if (fields.length < header.length) {
+					// ako je splitovana linija kraca od headera, mora da je to prazna linija na kraju reda
+					break;
+				}
+				
+				
 				Map<String, String> keyval = new LinkedHashMap<>();
 				for (int i = 0; i < header.length; i++) {
 					String k = stripQuote(header[i]);
-					String v = stripQuote(field[i]);
+					String v = stripQuote(fields[i]);
 					keyval.put(k, v);
 				}
 				Record r = new Record(keyval);

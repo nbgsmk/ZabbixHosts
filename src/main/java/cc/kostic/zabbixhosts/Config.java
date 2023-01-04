@@ -7,17 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Config {
-	public static enum MODE {
-		SVAKI_MUX_POSEBAN_HOST,
-		SVI_MUX_U_ISTI_HOST
-	};
 	
-	public enum TEMPLEJT {
-	
-	}
-	
-	public static MODE currentMode = MODE.SVAKI_MUX_POSEBAN_HOST;
-//	public static MODE currentMode = MODE.SVI_MUX_U_ISTI_HOST;
 	
 	public static Geo defaultCoord = new Geo("45°45'0", "21°21'0");	// BZVZ lokacija u slucaju null
 	
@@ -25,7 +15,9 @@ public class Config {
 			"Pristup",
 			"MUX1",
 			"MUX2",
-			"MUX3"
+			"MUX3",
+			"Agregat",
+			"UPS"
 	));
 	
 	public static boolean CREATE_EMPTY_HOSTS = true;

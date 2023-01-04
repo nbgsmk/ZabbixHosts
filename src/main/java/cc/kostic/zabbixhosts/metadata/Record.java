@@ -5,13 +5,14 @@ import cc.kostic.zabbixhosts.datamodel.*;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Record {
 	public final Map<String, String> keyval;
 	
 	private List<IPinterfejs> interfejsi = new ArrayList<>();
-	private Templejt.TPL templejtZajednicki;
-	private Set<Grupe.HOSTGRUPE> grupe = new HashSet<>();
+	private Set<HostGrupe> hostGrupe = new HashSet<>();
 	
 	public MapID mapID;
 	public Lokacija lokacija;
@@ -63,25 +64,42 @@ public class Record {
 	
 	private List<IPinterfejs> createInterfaces(){
 		List<IPinterfejs> interfejsi = new ArrayList<>();
-		Templejt.TPL tpl = Templejt.TPL.tpl_Normalni;
-		String loc = locID.getNum();
-		String adr = "172.16." + locID.getNum();
+		Templejt tpl = Templejt.Normalni;
+		String adr = "172.16." + locID.getNum() + ".";
 		
 		Pristup.TIP p = pristup.getTip();
-		if (p == Pristup.TIP.NEMA) {
-			tpl = Templejt.TPL.tpl_Nema;		// TODO ako nema interfejsa ceo nod <interfaces> se ne pojavljuje
-			grupe.add(Grupe.HOSTGRUPE.grp_NemaPristup);
-			return interfejsi;
-		} else if (p == Pristup.TIP.pristup3G) {
-			tpl = Templejt.TPL.tpl_Pristup3G;
-			grupe.add(Grupe.HOSTGRUPE.grp_3G);
-		} else if (Config.velikih11.contains(lokacija.getValue())) {
-			tpl = Templejt.TPL.tpl_Velikih11;
-			grupe.add(Grupe.HOSTGRUPE.grp_Velikih11);
+		
+		switch (p){
+			case NEMA:
+				// TODO ako nema interfejsa ceo nod <interfaces> se ne pojavljuje
+				hostGrupe.add(HostGrupe.grp_NemaPristup);
+				return interfejsi;
+//				break;
 			
+			case pristup3G:
+				tpl = Templejt.Pristup3G;
+				hostGrupe.add(HostGrupe.grp_3G);
+				break;
+				
+			case IPLink:
+				tpl = Templejt.PristupIPLink;
+				hostGrupe.add(HostGrupe.grp_IPLink);
+				break;
+				
+			case HCLink:
+				tpl = Templejt.PristupHCLink;
+				hostGrupe.add(HostGrupe.grp_HCLink);
+				break;
+				
 		}
 		
-		setTemplejtZajednicki(tpl);
+		if (Config.velikih11.contains(lokacija.getValue())) {
+			tpl = Templejt.Velikih11;
+			hostGrupe = new HashSet<>();
+			hostGrupe.add(HostGrupe.grp_Velikih11);
+		}
+		
+		// naknadno pregaziti ovaj zajednicki template sa specificnim
 		
 		for (String kolona : Config.interfejsKolone) {
 			String esa = null;
@@ -114,23 +132,23 @@ public class Record {
 		switch (p){
 			case NEMA:
 				esa = null;
-				grupe.add(Grupe.HOSTGRUPE.grp_NemaPristup);
+//				hostGrupe.add(HostGrupe.grp_NemaPristup);
 				break;
 			
 			case pristup3G:
-				esa = ".1";
-				grupe.add(Grupe.HOSTGRUPE.grp_3G);
+				esa = IPadrese.ip3G.getNum();
+//				hostGrupe.add(HostGrupe.grp_3G);
 				break;
 			
 			case IPLink:
-				esa = ".100";
-				grupe.add(Grupe.HOSTGRUPE.grp_IPLink);
-				
+				// TODO a gde je adresa 101?
+				esa = IPadrese.ipLinkBlizi.getNum();
+//				hostGrupe.add(HostGrupe.grp_IPLink);
 				break;
 			
 			case HCLink:
 				esa = null;
-				grupe.add(Grupe.HOSTGRUPE.grp_HCLink);
+//				hostGrupe.add(HostGrupe.grp_HCLink);
 				break;
 			default:
 				throw new RuntimeException("nepoznata vrsta pristupa sajtu u klasi " + this.getClass());
@@ -139,44 +157,48 @@ public class Record {
 	}
 	
 	private @Nullable String switch_case_byOstaleKolone(String k){
+		Pattern p = Pattern.compile("([89]k)|(mlx)");
+		Matcher m = p.matcher(keyval.get("Tip"));
 		String esa = null;
 		switch (k){
 			case "MUX1":
-				esa  = ".161";
-				grupe.add(Grupe.HOSTGRUPE.grp_DVBT);
+				esa = IPadrese.ipMUX_1.getNum();
+				hostGrupe.add(HostGrupe.grp_DVBT);
 				break;
 			
 			case "MUX2":
-				if (keyval.get("Tip").equals("Slx9k")) {
-					esa = ".161";
-				} else {
-					esa = ".162";
+				esa = IPadrese.ipMUX_2.getNum();
+				if (m.matches()) {
+					esa = IPadrese.ipMUX_1.getNum();
 				}
-				grupe.add(Grupe.HOSTGRUPE.grp_DVBT);
+				hostGrupe.add(HostGrupe.grp_DVBT);
 				break;
 			
 			case "MUX3":
-				if (keyval.get("Tip").equals("Slx9k")) {
-					esa = ".161";
-				} else {
-					esa = ".163";
+				esa = IPadrese.ipMUX_3.getNum();
+				if (m.matches()) {
+					esa = IPadrese.ipMUX_1.getNum();
 				}
-				grupe.add(Grupe.HOSTGRUPE.grp_DVBT);
+				hostGrupe.add(HostGrupe.grp_DVBT);
 				break;
+			
+			case "Agregat":
+				esa = IPadrese.ipAgregat.getNum();
+				hostGrupe.add(HostGrupe.grp_Agregati);
+				break;
+				
+			case "UPS":
+				esa = IPadrese.ipUPS.getNum();;
+				hostGrupe.add(HostGrupe.grp_UPS);
+				break;
+				
 		}
 		return esa;
 	}
 	
-	public Templejt.TPL getTemplejtZajednicki() {
-		return this.templejtZajednicki;
-	}
+
 	
-	public void setTemplejtZajednicki(Templejt.TPL templejtZajednicki) {
-		this.templejtZajednicki = templejtZajednicki;
-	}
-	
-	
-	public Set<Grupe.HOSTGRUPE> getGrupe() {
-		return grupe;
+	public Set<HostGrupe> getGrupe() {
+		return hostGrupe;
 	}
 }

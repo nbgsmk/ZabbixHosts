@@ -7,6 +7,7 @@ public enum Templejt {
 	tpl_RohdeSchwarz("tpl_RohdeSchwarz"),
 	tpl_HCLink("tpl_HCLink"),
 	tpl_IPLink("tpl_IPLink"),
+	tpl_IPLinkCAMB("tpl_IPLinkCambium"),
 	tpl_Nema("tpl_Nema"),
 	tpl_Normal("tpl_Normal"),
 	tpl_Velikih11("tpl_Velikih11"),

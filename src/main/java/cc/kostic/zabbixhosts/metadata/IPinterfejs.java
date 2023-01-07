@@ -3,24 +3,23 @@ package cc.kostic.zabbixhosts.metadata;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class IPinterfejs {
 
 	public enum TIP{
-		SNMPv2,
 		SNMPv1,
+		SNMPv2,
+		SNMPv2_CAMBIUM,
 		PING()
 	}
 
-	
+	private final Map<String, String> snmp_props = new HashMap<String, String>();
+	private final Map<String, String> snmp_details = new HashMap<String, String>();
+
 	
 	public TIP tip;
 	public String adresa;
-	public String port;
-	public String details_SNMPcommunity;
-	public String details_SNMPversion;
 	public int interfaceRef;
 	public String naziv;
 	private Templejt templejt;
@@ -39,23 +38,28 @@ public class IPinterfejs {
 	public TIP getTip() {
 		return tip;
 	}
-	
-	public String getPort() {
-		return port;
-	}
+
 	
 	public void setTip(TIP tip) {
-		this.tip = tip;
-		if (tip == TIP.SNMPv1) {
-			this.port = "161";
-			this.details_SNMPcommunity = "{$SNMP_COMMUNITY_PUBLIC}";
-			this.details_SNMPversion = "SNMPV1";
-		}
-		if (tip == TIP.SNMPv2) {
-			this.port = "161";
-			this.details_SNMPcommunity = "{$SNMP_COMMUNITY_PUBLIC}";
-		}
+		switch (tip) {
+			case SNMPv1 -> {
+				snmp_props.put("type", "SNMP");
+				snmp_props.put("port", "161");
+				snmp_details.put("version", "SNMPV1");
+				snmp_details.put("community", "{$SNMP_COMMUNITY_PUBLIC}");
+			}
+			case SNMPv2 -> {
+				snmp_props.put("type", "SNMP");
+				snmp_props.put("port", "161");
+				snmp_details.put("community", "{$SNMP_COMMUNITY_PUBLIC}");
+			}
+			case SNMPv2_CAMBIUM -> {
+				snmp_props.put("type", "SNMP");
+				snmp_props.put("port", "161");
+				snmp_details.put("community", "{$SNMP_COMMUNITY_CAMBIUM_PUBLIC}");
+			}
 
+		}
 	}
 	
 	public String getAdresa() {
@@ -124,45 +128,35 @@ public class IPinterfejs {
 		adresa.appendChild(doc.createTextNode(this.getAdresa()));
 		Element ref = doc.createElement("interface_ref");
 		ref.appendChild(doc.createTextNode( "if" + String.valueOf(this.getInterfaceRef())));
-		
-		
-		// SNMP priprema
-		Element type = doc.createElement("type");
-		type.appendChild(doc.createTextNode("SNMP"));
 
-		Element port = doc.createElement("port");
-		port.appendChild(doc.createTextNode(this.getPort()));
-		
-		Element detalji = doc.createElement("details");
-		Element community = doc.createElement("community");
-		detalji.appendChild(community);
-		community.appendChild(doc.createTextNode(this.details_SNMPcommunity));
-		
-		if (this.getTip() == TIP.SNMPv1) {
-			Element ver = doc.createElement("version");
-			ver.appendChild(doc.createTextNode(this.details_SNMPversion));
-			detalji.appendChild(ver);
-			intf.appendChild(type);
-			intf.appendChild(port);
-			intf.appendChild(detalji);
-		}
-		if (this.getTip() == TIP.SNMPv2) {
-			intf.appendChild(type);
-			intf.appendChild(port);
-			intf.appendChild(detalji);
-		}
-		
-			
-
-		
-		
-		//		sviIntf.appendChild(intf);
 		intf.appendChild(adresa);
+
+		// SNMP
+		for	(Map.Entry<String, String> entry : snmp_props.entrySet()) {
+			// direktno ispod taga <interface>
+			// 		<type>snmp</type>
+			// 		<port>161</port>
+			Element pr = doc.createElement(entry.getKey());
+			pr.appendChild(doc.createTextNode(entry.getValue()));
+			intf.appendChild(pr);
+		}
+
+		if ( ! snmp_details.isEmpty()) {
+			Element detalji = doc.createElement("details");
+			for	(Map.Entry<String, String> entry : snmp_details.entrySet()) {
+				// ispod taga <interface> / <details>
+				// 		<community>snmp</>
+				// 		<version>SNMPv1</>
+				Element dt = doc.createElement(entry.getKey());
+				dt.appendChild(doc.createTextNode(entry.getValue()));
+				detalji.appendChild(dt);
+			}
+			intf.appendChild(detalji);
+		}
+
 		intf.appendChild(ref);
 		
-//		tmp.add(sviIntf);
 		tmp.add(intf);
-//		tmp.add(naziv);
 		return tmp;
 	}
 }

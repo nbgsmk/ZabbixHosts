@@ -87,19 +87,38 @@ public class Record {
 				break;
 			
 			case IPLink:
-				esa = IPdefault.ipLinkBlizi.getNum();
-				intf = new IPinterfejs(adr + esa, p.name() + " A");
-				intf.setTemplejt(Templejt.tpl_IPLink);
-				intf.setHostGrp(HostGrupa.grp_IPLink);
-				intf.setTip(IPinterfejs.TIP.SNMPv1);
-				tmpIntf.add(intf);
-				
-				esa = IPdefault.ipLinkDalji.getNum();
-				intf = new IPinterfejs(adr + esa, p.name() + " B");
-				intf.setTemplejt(Templejt.tpl_IPLink);
-				intf.setHostGrp(HostGrupa.grp_IPLink);
-				intf.setTip(IPinterfejs.TIP.SNMPv1);
-				tmpIntf.add(intf);
+				if (Config.CambiumIPlink.contains(this.lokacija.getNameUtf())) {
+					// Cambium = SNMPv2
+					esa = IPdefault.ipLinkBlizi.getNum();
+					intf = new IPinterfejs(adr + esa, p.name() + " A");
+					intf.setHostGrp(HostGrupa.grp_IPLink);
+					intf.setTemplejt(Templejt.tpl_IPLinkCAMB);
+					intf.setTip(IPinterfejs.TIP.SNMPv2_CAMBIUM);
+					tmpIntf.add(intf);
+
+					esa = IPdefault.ipLinkDalji.getNum();
+					intf = new IPinterfejs(adr + esa, p.name() + " B");
+					intf.setHostGrp(HostGrupa.grp_IPLink);
+					intf.setTemplejt(Templejt.tpl_IPLinkCAMB);
+					intf.setTip(IPinterfejs.TIP.SNMPv2_CAMBIUM);
+					tmpIntf.add(intf);
+
+				} else {
+					// Ubiquity = SNMPv1
+					esa = IPdefault.ipLinkBlizi.getNum();
+					intf = new IPinterfejs(adr + esa, p.name() + " A");
+					intf.setHostGrp(HostGrupa.grp_IPLink);
+					intf.setTemplejt(Templejt.tpl_IPLink);
+					intf.setTip(IPinterfejs.TIP.SNMPv1);
+					tmpIntf.add(intf);
+
+					esa = IPdefault.ipLinkDalji.getNum();
+					intf = new IPinterfejs(adr + esa, p.name() + " B");
+					intf.setHostGrp(HostGrupa.grp_IPLink);
+					intf.setTemplejt(Templejt.tpl_IPLink);
+					intf.setTip(IPinterfejs.TIP.SNMPv1);
+					tmpIntf.add(intf);
+				}
 				break;
 			
 			case HCLink:

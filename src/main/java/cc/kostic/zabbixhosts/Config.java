@@ -23,6 +23,7 @@ public class Config {
 	public static boolean CREATE_HOSTS_WITHOUT_INTERFACES = true;
 	public static boolean EXPORT_GROUPS_SUMMARY = false;
 
+	public static final String HOST_SUFFIX_BEZ_INTERFEJSA = "[-]";
 	
 	public static final Set<String> velikih11 = new HashSet<>(Arrays.asList(
 			"Avala",
@@ -39,5 +40,9 @@ public class Config {
 			"Subotica",
 			"Tupižnica",
 			"Vršac"
+	));
+
+	public static final Set<String> CambiumIPlink = new HashSet<>(Arrays.asList(
+			"Ljubovija - Nemić"
 	));
 }

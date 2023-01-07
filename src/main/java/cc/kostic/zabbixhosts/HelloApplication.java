@@ -27,7 +27,7 @@ public class HelloApplication extends Application {
 		
 		
 		String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022.csv";
-		// String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022-DEMO.csv";
+		 // String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022-DEMO.csv";
 		String delimiter = ",";
 		List<Record> rekordi = readCSV(csvFile, delimiter);
 		List<ZbxHost> hostovi = new ArrayList<>();
@@ -39,8 +39,7 @@ public class HelloApplication extends Application {
 			
 			if ( (svi == null) && (Config.CREATE_HOSTS_WITHOUT_INTERFACES) ) {
 				ZbxHost h = new ZbxHost(r);
-				h.setName(r.lokacija.getNameAscii());
-				// h.addInterface(ip);
+				h.setName(Config.HOST_SUFFIX_BEZ_INTERFEJSA);
 				// h.setTemplejt(ip.getTemplejt());
 				hostovi.add(h);
 			} else {

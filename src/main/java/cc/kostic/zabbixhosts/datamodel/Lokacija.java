@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class Lokacija extends CsvEL {
 	
-	private String nameAscii;
-	private String nameUtf;
+	private final String nameAscii;
+	private final String nameUtf;
 	
 	public Lokacija(Map<String, String> elementi, String csvHeader) {
 		super(elementi, csvHeader);

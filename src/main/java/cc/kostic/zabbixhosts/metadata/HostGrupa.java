@@ -1,6 +1,6 @@
 package cc.kostic.zabbixhosts.metadata;
 
-public enum HostGrupe {
+public enum HostGrupa {
 	
 	grp_3G("grp_3G"),
 	grp_Agregati("grp_Agregati"),
@@ -16,7 +16,7 @@ public enum HostGrupe {
 	private final String name;
 	private String uuid;
 	
-	HostGrupe(String name) {
+	HostGrupa(String name) {
 		this.name = name;
 	}
 	

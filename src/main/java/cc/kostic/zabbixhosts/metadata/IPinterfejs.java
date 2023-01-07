@@ -4,19 +4,27 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class IPinterfejs {
+
+	public enum TIP{
+		SNMPv2,
+		SNMPv1,
+		PING()
+	}
+
 	
-	public String type;
+	
+	public TIP tip;
 	public String adresa;
 	public String port;
-	public String detailsCommunity;
+	public String details_SNMPcommunity;
+	public String details_SNMPversion;
 	public int interfaceRef;
 	public String naziv;
 	private Templejt templejt;
+	private HostGrupa grp;
 	
 	public IPinterfejs(String adresa) {
 		this.adresa = adresa;
@@ -24,6 +32,30 @@ public class IPinterfejs {
 	
 	public IPinterfejs(String adresa, String naziv) {
 		this.adresa = adresa;
+		this.naziv = naziv;
+	}
+	
+	
+	public TIP getTip() {
+		return tip;
+	}
+	
+	public String getPort() {
+		return port;
+	}
+	
+	public void setTip(TIP tip) {
+		this.tip = tip;
+		if (tip == TIP.SNMPv1) {
+			this.port = "161";
+			this.details_SNMPcommunity = "{$SNMP_COMMUNITY_PUBLIC}";
+			this.details_SNMPversion = "SNMPV1";
+		}
+		if (tip == TIP.SNMPv2) {
+			this.port = "161";
+			this.details_SNMPcommunity = "{$SNMP_COMMUNITY_PUBLIC}";
+		}
+
 	}
 	
 	public String getAdresa() {
@@ -60,6 +92,15 @@ public class IPinterfejs {
 		this.templejt = templejt;
 	}
 	
+	
+	public HostGrupa getHostGrp() {
+		return grp;
+	}
+	
+	public void setHostGrp(HostGrupa grp) {
+		this.grp = grp;
+	}
+	
 	public List<Element> getTemplates(Document doc){
 		List<Element> tmp = new ArrayList<>();
 		
@@ -84,7 +125,38 @@ public class IPinterfejs {
 		Element ref = doc.createElement("interface_ref");
 		ref.appendChild(doc.createTextNode( "if" + String.valueOf(this.getInterfaceRef())));
 		
-//		sviIntf.appendChild(intf);
+		
+		// SNMP priprema
+		Element type = doc.createElement("type");
+		type.appendChild(doc.createTextNode("SNMP"));
+
+		Element port = doc.createElement("port");
+		port.appendChild(doc.createTextNode(this.getPort()));
+		
+		Element detalji = doc.createElement("details");
+		Element community = doc.createElement("community");
+		detalji.appendChild(community);
+		community.appendChild(doc.createTextNode(this.details_SNMPcommunity));
+		
+		if (this.getTip() == TIP.SNMPv1) {
+			Element ver = doc.createElement("version");
+			ver.appendChild(doc.createTextNode(this.details_SNMPversion));
+			detalji.appendChild(ver);
+			intf.appendChild(type);
+			intf.appendChild(port);
+			intf.appendChild(detalji);
+		}
+		if (this.getTip() == TIP.SNMPv2) {
+			intf.appendChild(type);
+			intf.appendChild(port);
+			intf.appendChild(detalji);
+		}
+		
+			
+
+		
+		
+		//		sviIntf.appendChild(intf);
 		intf.appendChild(adresa);
 		intf.appendChild(ref);
 		

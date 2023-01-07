@@ -6,6 +6,7 @@ import cc.kostic.zabbixhosts.metadata.ZbxHost;
 import cc.kostic.zabbixhosts.xml.ZbxExport;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
 import java.nio.charset.CharacterCodingException;
@@ -26,20 +27,30 @@ public class HelloApplication extends Application {
 		
 		
 		String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022.csv";
-//		String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022-DEMO.csv";
+		// String csvFile = "D:\\Instalacije_nove\\ETV\\Zabbix\\vazne informacije - 21.11.2022-DEMO.csv";
 		String delimiter = ",";
 		List<Record> rekordi = readCSV(csvFile, delimiter);
 		List<ZbxHost> hostovi = new ArrayList<>();
 		
+
 	
 		for (Record r : rekordi) {
 			List<IPinterfejs> svi = r.getInterfaces();
-			for (IPinterfejs ip : svi){
+			
+			if ( (svi == null) && (Config.CREATE_HOSTS_WITHOUT_INTERFACES) ) {
 				ZbxHost h = new ZbxHost(r);
-				h.setName(ip.getNaziv());
-				h.addInterface(ip);
-				h.setTemplejt(ip.getTemplejt());
+				h.setName(r.lokacija.getNameAscii());
+				// h.addInterface(ip);
+				// h.setTemplejt(ip.getTemplejt());
 				hostovi.add(h);
+			} else {
+				for (IPinterfejs ip : svi) {
+					ZbxHost h = new ZbxHost(r);
+					h.setName(ip.getNaziv());
+					h.addInterface(ip);
+					h.setTemplejt(ip.getTemplejt());
+					hostovi.add(h);
+				}
 			}
 		}
 		
@@ -94,9 +105,21 @@ public class HelloApplication extends Application {
 				
 				Map<String, String> keyval = new LinkedHashMap<>();
 				for (int i = 0; i < header.length; i++) {
-					String k = stripQuote(header[i]);
-					String v = stripQuote(fields[i]);
+					String k;
+					k = stripQuote(header[i]);
+					k = stripLeadingTrailingDots(k);
+					
+					String v;
+					v = stripQuote(fields[i]);
+					v = stripLeadingTrailingDots(v);
 					keyval.put(k, v);
+					
+					// if ( (k==null) || (v==null) ) {
+					// 	String msg = "NUll k=" + k + ", v=" + v + ", linija=\"" +  linija + "\"";
+					// 		System.getLogger("null").log(System.Logger.Level.INFO, msg);
+					// }
+					
+					
 				}
 				Record r = new Record(keyval);
 
@@ -120,5 +143,19 @@ public class HelloApplication extends Application {
 		return s;
 	}
 	
-
+	
+	private @Nullable String stripLeadingTrailingDots(String s){
+		if (s == null) {
+			return null;
+		}
+		
+		
+		if (s.startsWith(".")) {
+			s = s.substring(1);
+		}
+		if (s.endsWith(".")) {
+			s = s.substring(0, s.length() - 1);
+		}
+		return s;
+	}
 }

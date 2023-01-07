@@ -1,7 +1,8 @@
 package cc.kostic.zabbixhosts.xml;
 
+import cc.kostic.zabbixhosts.Config;
 import cc.kostic.zabbixhosts.metadata.ZbxHost;
-import cc.kostic.zabbixhosts.metadata.HostGrupe;
+import cc.kostic.zabbixhosts.metadata.HostGrupa;
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
 import cc.kostic.zabbixhosts.metadata.XmlTag;
 import org.w3c.dom.Document;
@@ -51,26 +52,27 @@ public class ZbxExport {
 //			datum.appendChild(doc.createTextNode(ZonedDateTime.now().truncatedTo(ChronoUnit.SECONDS).toString()));	// zona Europe/Budapest, lokalno vreme
 			rootElement.appendChild(datum);
 			
-			// groups
-			Element groups;
-			groups = doc.createElement("groups");
-			rootElement.appendChild(groups);
-			
-			
-			boolean grpUuidPrint = true;
-			Element group, grpuuid, grpname;
-			for (HostGrupe grp : HostGrupe.values()) {
-				group = doc.createElement("group");
-				if (grpUuidPrint) {
-					grpuuid = doc.createElement("uuid");
-					grpuuid.appendChild(doc.createTextNode(UUID.randomUUID().toString().replace("-", "")));
-					group.appendChild(grpuuid);
-				}
-				grpname = doc.createElement("name");
-				grpname.appendChild(doc.createTextNode(grp.getName()));
-				group.appendChild(grpname);
+			if (Config.EXPORT_GROUPS_SUMMARY) {
+				// groups
+				Element groups;
+				groups = doc.createElement("groups");
+				rootElement.appendChild(groups);
 				
-				groups.appendChild(group);
+				boolean grpUuidPrint = true;
+				Element group, grpuuid, grpname;
+				for (HostGrupa grp : HostGrupa.values()) {
+					group = doc.createElement("group");
+					if (grpUuidPrint) {
+						grpuuid = doc.createElement("uuid");
+						grpuuid.appendChild(doc.createTextNode(UUID.randomUUID().toString().replace("-", "")));
+						group.appendChild(grpuuid);
+					}
+					grpname = doc.createElement("name");
+					grpname.appendChild(doc.createTextNode(grp.getName()));
+					group.appendChild(grpname);
+					
+					groups.appendChild(group);
+				}
 			}
 			
 			
@@ -112,8 +114,8 @@ public class ZbxExport {
 				// groups
 				// templates
 				Element grupe = doc.createElement("groups");
-				Set<HostGrupe> hostGrupe = h.record.getGrupe();
-				for (HostGrupe grp : hostGrupe) {
+				Set<HostGrupa> hostGrupa = h.record.getGrupe();
+				for (HostGrupa grp : hostGrupa) {
 					Element el = doc.createElement("group");
 					Element name = doc.createElement("name");
 					el.appendChild(name);

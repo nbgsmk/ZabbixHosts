@@ -1,6 +1,6 @@
 package cc.kostic.zabbixhosts.metadata;
 
-public enum IPadrese {
+public enum IPdefault {
 	ip3G(1),
 	ipLinkBlizi(100),
 	ipLinkDalji(101),
@@ -13,7 +13,7 @@ public enum IPadrese {
 	
 	private final String adr;
 	
-	IPadrese(int adr) {
+	IPdefault(int adr) {
 		this.adr = String.valueOf(adr);
 	}
 	

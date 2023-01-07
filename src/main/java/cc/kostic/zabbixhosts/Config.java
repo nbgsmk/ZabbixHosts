@@ -12,7 +12,7 @@ public class Config {
 	public static Geo defaultCoord = new Geo("45°45'0", "21°21'0");	// BZVZ lokacija u slucaju null
 	
 	public static final Set<String> interfejsKolone = new HashSet<>(Arrays.asList(
-			"Pristup",
+			// "Pristup",
 			"MUX1",
 			"MUX2",
 			"MUX3",
@@ -20,7 +20,8 @@ public class Config {
 			"UPS"
 	));
 	
-	public static boolean CREATE_EMPTY_HOSTS = true;
+	public static boolean CREATE_HOSTS_WITHOUT_INTERFACES = true;
+	public static boolean EXPORT_GROUPS_SUMMARY = false;
 
 	
 	public static final Set<String> velikih11 = new HashSet<>(Arrays.asList(

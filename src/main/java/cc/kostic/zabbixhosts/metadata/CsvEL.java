@@ -1,6 +1,7 @@
 package cc.kostic.zabbixhosts.metadata;
 
 import cc.kostic.zabbixhosts.Config;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -12,8 +13,8 @@ import java.util.Map;
 
 public abstract class CsvEL {
 	protected Map<String, String> elementi;
-	protected String csvHeader;
-	protected String csvValue;
+	protected @Nullable String csvHeader;
+	protected @Nullable String csvValue;
 	
 	
 	public CsvEL(Map<String, String> elementi, String csvHeader) {
@@ -51,19 +52,10 @@ public abstract class CsvEL {
 		
 		s = s.replaceAll("['()']", "");
 
-		s = stripLeadingTrailingDots(s);
 		return s;
 	}
 	
-	private String stripLeadingTrailingDots(String s){
-		if (s.startsWith(".")) {
-			s = s.substring(1);
-		}
-		if (s.endsWith(".")) {
-			s = s.substring(0, s.length() - 1);
-		}
-		return s;
-	}
+
 	
 	public String removeDiacriticalMarks(String string) {
 		return Normalizer.normalize(string, Normalizer.Form.NFD)

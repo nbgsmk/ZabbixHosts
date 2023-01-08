@@ -105,7 +105,7 @@ public class IPinterfejs {
 		this.grpSet.add(grp);
 	}
 	
-	public List<Element> getTemplates(Document doc){
+	public List<Element> getTemplatesXml(Document doc){
 		List<Element> tmp = new ArrayList<>();
 		
 		Element tmpl = doc.createElement("template");
@@ -119,7 +119,7 @@ public class IPinterfejs {
 	}
 	
 	
-	public List<Element> getInterfaces(Document doc){
+	public List<Element> getInterfacesXml(Document doc){
 		List<Element> tmp = new ArrayList<>();
 		
 		Element intf = doc.createElement("interface");
@@ -157,4 +157,5 @@ public class IPinterfejs {
 		tmp.add(intf);
 		return tmp;
 	}
+
 }

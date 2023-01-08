@@ -23,7 +23,7 @@ public class IPinterfejs {
 	public int interfaceRef;
 	public String naziv;
 	private Templejt templejt;
-	private HostGrupa grp;
+	private Set<HostGrupa> grpSet = new HashSet<>();
 	
 	public IPinterfejs(String adresa) {
 		this.adresa = adresa;
@@ -97,12 +97,12 @@ public class IPinterfejs {
 	}
 	
 	
-	public HostGrupa getHostGrp() {
-		return grp;
+	public Set<HostGrupa> getHostGrpSet() {
+		return grpSet;
 	}
 	
-	public void setHostGrp(HostGrupa grp) {
-		this.grp = grp;
+	public void addHostGrp(HostGrupa grp) {
+		this.grpSet.add(grp);
 	}
 	
 	public List<Element> getTemplates(Document doc){

@@ -79,7 +79,7 @@ public class Record {
 				esa = IPdefault.ip3G.getNum();
 				intf = new IPinterfejs(adr + esa, p.name());
 				intf.setTemplejt(Templejt.tpl_3G);
-				intf.setHostGrp(HostGrupa.grp_3G);
+				intf.addHostGrp(HostGrupa.grp_3G);
 				intf.setTip(IPinterfejs.TIP.PING);
 				tmpIntf.add(intf);
 				break;
@@ -89,14 +89,14 @@ public class Record {
 					// Cambium = SNMPv2
 					esa = IPdefault.ipLinkBlizi.getNum();
 					intf = new IPinterfejs(adr + esa, p.name() + " A");
-					intf.setHostGrp(HostGrupa.grp_IPLink);
+					intf.addHostGrp(HostGrupa.grp_IPLink);
 					intf.setTemplejt(Templejt.tpl_IPLinkCAMB);
 					intf.setTip(IPinterfejs.TIP.SNMPv2_CAMBIUM);
 					tmpIntf.add(intf);
 
 					esa = IPdefault.ipLinkDalji.getNum();
 					intf = new IPinterfejs(adr + esa, p.name() + " B");
-					intf.setHostGrp(HostGrupa.grp_IPLink);
+					intf.addHostGrp(HostGrupa.grp_IPLink);
 					intf.setTemplejt(Templejt.tpl_IPLinkCAMB);
 					intf.setTip(IPinterfejs.TIP.SNMPv2_CAMBIUM);
 					tmpIntf.add(intf);
@@ -105,14 +105,14 @@ public class Record {
 					// Ubiquity = SNMPv1
 					esa = IPdefault.ipLinkBlizi.getNum();
 					intf = new IPinterfejs(adr + esa, p.name() + " A");
-					intf.setHostGrp(HostGrupa.grp_IPLink);
+					intf.addHostGrp(HostGrupa.grp_IPLink);
 					intf.setTemplejt(Templejt.tpl_IPLink);
 					intf.setTip(IPinterfejs.TIP.SNMPv1);
 					tmpIntf.add(intf);
 
 					esa = IPdefault.ipLinkDalji.getNum();
 					intf = new IPinterfejs(adr + esa, p.name() + " B");
-					intf.setHostGrp(HostGrupa.grp_IPLink);
+					intf.addHostGrp(HostGrupa.grp_IPLink);
 					intf.setTemplejt(Templejt.tpl_IPLink);
 					intf.setTip(IPinterfejs.TIP.SNMPv1);
 					tmpIntf.add(intf);
@@ -162,7 +162,8 @@ public class Record {
 				esa = IPdefault.ipMUX_1.getNum();
 				intf = new IPinterfejs(adr + esa, kolona);
 				intf.setTemplejt(Templejt.tpl_RohdeSchwarz);
-				intf.setHostGrp(HostGrupa.grp_DVBT);
+				intf.addHostGrp(HostGrupa.grp_DVBT);
+				intf.addHostGrp(HostGrupa.grp_MUX1);
 				break;
 			
 			case "MUX2":
@@ -172,7 +173,8 @@ public class Record {
 				}
 				intf = new IPinterfejs(adr + esa, kolona);
 				intf.setTemplejt(Templejt.tpl_RohdeSchwarz);
-				intf.setHostGrp(HostGrupa.grp_DVBT);
+				intf.addHostGrp(HostGrupa.grp_DVBT);
+				intf.addHostGrp(HostGrupa.grp_MUX2);
 				break;
 			
 			case "MUX3":
@@ -182,21 +184,22 @@ public class Record {
 				}
 				intf = new IPinterfejs(adr + esa, kolona);
 				intf.setTemplejt(Templejt.tpl_RohdeSchwarz);
-				intf.setHostGrp(HostGrupa.grp_DVBT);
+				intf.addHostGrp(HostGrupa.grp_DVBT);
+				intf.addHostGrp(HostGrupa.grp_MUX3);
 				break;
 			
 			case "Agregat":
 				esa = IPdefault.ipAgregat.getNum();
 				intf = new IPinterfejs(adr + esa, kolona);
 				intf.setTemplejt(Templejt.tpl_Agregat);
-				intf.setHostGrp(HostGrupa.grp_Agregati);
+				intf.addHostGrp(HostGrupa.grp_Agregati);
 				break;
 			
 			case "UPS":
 				esa = IPdefault.ipUPS.getNum();
 				intf = new IPinterfejs(adr + esa, kolona);
 				intf.setTemplejt(Templejt.tpl_Ups);
-				intf.setHostGrp(HostGrupa.grp_UPS);
+				intf.addHostGrp(HostGrupa.grp_UPS);
 				break;
 			
 		}

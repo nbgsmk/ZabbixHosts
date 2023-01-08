@@ -113,7 +113,7 @@ public class ZbxExport {
 				
 				// groups
 				Element groups = doc.createElement("groups");
-				if (h.getInterfejsi() != null) {
+				if ( (h.getInterfejsi() == null) || (h.getInterfejsi().isEmpty()) ) {
 					Element grp = doc.createElement("group");
 					Element grpName = doc.createElement("name");
 					grp.appendChild(grpName);
@@ -121,11 +121,13 @@ public class ZbxExport {
 					groups.appendChild(grp);
 				} else {
 					for (IPinterfejs ip : h.getInterfejsi()) {
-						Element grp = doc.createElement("group");
-						Element grpName = doc.createElement("name");
-						grp.appendChild(grpName);
-						grpName.appendChild(doc.createTextNode(ip.getHostGrp().getName()));
-						groups.appendChild(grp);
+						for (HostGrupa hgs : ip.getHostGrpSet()) {
+							Element grp = doc.createElement("group");
+							Element grpName = doc.createElement("name");
+							grp.appendChild(grpName);
+							grpName.appendChild(doc.createTextNode(hgs.getName()));
+							groups.appendChild(grp);
+						}
 					}
 				}
 				jedanHost.appendChild(groups);

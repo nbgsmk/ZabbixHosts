@@ -9,7 +9,11 @@ public enum HostGrupa {
 	grp_IPLink("grp_IPLink"),
 	grp_NemaPristup("grp_NemaPristup"),
 	grp_UPS("grp_UPS"),
-	grp_Velikih11("grp_Velikih11")
+	grp_Velikih11("grp_Velikih11"),
+	
+	grp_MUX1("grp_MUX1"),
+	grp_MUX2("grp_MUX2"),
+	grp_MUX3("grp_MUX3"),
 	;
 		
 	

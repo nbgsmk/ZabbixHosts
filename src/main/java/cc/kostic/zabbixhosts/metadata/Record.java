@@ -72,8 +72,6 @@ public class Record {
 		
 		switch (p) {
 			case NEMA:
-				// TODO ako nema interfejsa ceo nod <interfaces> se ne pojavljuje
-				hostGrupa.add(HostGrupa.grp_NemaPristup);
 				return null;
 				// break;
 			

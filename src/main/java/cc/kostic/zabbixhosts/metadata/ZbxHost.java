@@ -14,7 +14,7 @@ import java.util.Map;
 public class ZbxHost {
 	public cc.kostic.zabbixhosts.metadata.Record record;
 	private String localName;
-	public List<IPinterfejs> interfejsi = new ArrayList<>();
+	private List<IPinterfejs> interfejsi = new ArrayList<>();
 	private List<XmlTag> tagovi = new ArrayList<>();
 	private int intRef = 1;
 	private Templejt templejt;

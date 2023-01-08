@@ -122,13 +122,9 @@ public class IPinterfejs {
 	public List<Element> getInterfaces(Document doc){
 		List<Element> tmp = new ArrayList<>();
 		
-//		Element sviIntf = doc.createElement("interfaces");
 		Element intf = doc.createElement("interface");
 		Element adresa = doc.createElement("ip");
 		adresa.appendChild(doc.createTextNode(this.getAdresa()));
-		Element ref = doc.createElement("interface_ref");
-		ref.appendChild(doc.createTextNode( "if" + String.valueOf(this.getInterfaceRef())));
-
 		intf.appendChild(adresa);
 
 		// SNMP
@@ -153,7 +149,9 @@ public class IPinterfejs {
 			}
 			intf.appendChild(detalji);
 		}
-
+		
+		Element ref = doc.createElement("interface_ref");
+		ref.appendChild(doc.createTextNode( "if" + String.valueOf(this.getInterfaceRef())));
 		intf.appendChild(ref);
 		
 		tmp.add(intf);

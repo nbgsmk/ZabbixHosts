@@ -112,22 +112,28 @@ public class ZbxExport {
 				
 				
 				// groups
-				// templates
-				Element grupe = doc.createElement("groups");
-				Set<HostGrupa> hostGrupa = h.record.getGrupe();
-				for (HostGrupa grp : hostGrupa) {
-					Element el = doc.createElement("group");
-					Element name = doc.createElement("name");
-					el.appendChild(name);
-					name.appendChild(doc.createTextNode(grp.getName()));
-					grupe.appendChild(el);
+				Element groups = doc.createElement("groups");
+				if (h.getInterfejsi() != null) {
+					Element grp = doc.createElement("group");
+					Element grpName = doc.createElement("name");
+					grp.appendChild(grpName);
+					grpName.appendChild(doc.createTextNode(HostGrupa.grp_NemaPristup.getName()));
+					groups.appendChild(grp);
+				} else {
+					for (IPinterfejs ip : h.getInterfejsi()) {
+						Element grp = doc.createElement("group");
+						Element grpName = doc.createElement("name");
+						grp.appendChild(grpName);
+						grpName.appendChild(doc.createTextNode(ip.getHostGrp().getName()));
+						groups.appendChild(grp);
+					}
 				}
-				jedanHost.appendChild(grupe);
+				jedanHost.appendChild(groups);
 				
 				
 				// interfaces
 				Element interfaces = doc.createElement("interfaces");
-				for (IPinterfejs ip : h.interfejsi) {
+				for (IPinterfejs ip : h.getInterfejsi()) {
 					for (Element el : ip.getInterfaces(doc)) {
 						interfaces.appendChild(el);
 					}

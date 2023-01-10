@@ -104,7 +104,7 @@ public class ZbxExport {
 				Element templejts = doc.createElement("templates");
 				List<IPinterfejs> interfejsi = h.getInterfejsi();
 				for (IPinterfejs ip : interfejsi) {
-					for (Element el : ip.getTemplates(doc)) {
+					for (Element el : ip.getTemplatesXml(doc)) {
 						templejts.appendChild(el);
 					}
 				}
@@ -136,7 +136,7 @@ public class ZbxExport {
 				// interfaces
 				Element interfaces = doc.createElement("interfaces");
 				for (IPinterfejs ip : h.getInterfejsi()) {
-					for (Element el : ip.getInterfaces(doc)) {
+					for (Element el : ip.getInterfacesXml(doc)) {
 						interfaces.appendChild(el);
 					}
 				}
@@ -193,6 +193,3 @@ public class ZbxExport {
 	
 }
 
-// TODO utf ulazni fajl
-// TODO ? u imenu
-// TODO ip adrese 15*, 86*

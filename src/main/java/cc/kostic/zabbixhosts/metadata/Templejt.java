@@ -11,7 +11,13 @@ public enum Templejt {
 	tpl_Nema("tpl_Nema"),
 	tpl_Normal("tpl_Normal"),
 	tpl_Velikih11("tpl_Velikih11"),
-	tpl_Ups("tpl_Ups");
+
+	tpl_Ups_generic("tpl_generic"),
+	tpl_Ups_Galaxy("tpl_Ups_Galaxy"),
+	tpl_Ups_NetBots("tpl_Ups_NetBotz"),
+	tpl_Ups_NetVision("tpl_Ups_NetVision"),
+	tpl_Ups_Symmetra("tpl_Ups_Symmetra"),
+	;
 	
 	public final String naziv;
 	

@@ -196,9 +196,10 @@ public class Record {
 				break;
 			
 			case "UPS":
-				esa = IPdefault.ipUPS.getNum();
-				intf = new IPinterfejs(adr + esa, kolona);
-				intf.setTemplejt(Templejt.tpl_Ups);
+				String tmp_adr = IPdefault.getCplxAdr(this.keyval.get(kolona));
+				Templejt tmp_tpl = IPdefault.getCplxTemplate(this.keyval.get(kolona));
+				intf = new IPinterfejs(tmp_adr, kolona);
+				intf.setTemplejt(tmp_tpl);
 				intf.addHostGrp(HostGrupa.grp_UPS);
 				break;
 			

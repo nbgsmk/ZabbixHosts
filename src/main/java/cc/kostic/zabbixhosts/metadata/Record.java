@@ -63,7 +63,7 @@ public class Record {
 	private @Nullable List<IPinterfejs> createInterfaces() {
 		List<IPinterfejs> tmpIntf = new ArrayList<>();
 		
-		Templejt tpl = Templejt.tpl_Normal;
+		Templejt tpl = Templejt.tpl_Default;
 		IPinterfejs intf = null;
 		String adr = "172.16." + locID.getNum() + ".";
 		String esa = "";

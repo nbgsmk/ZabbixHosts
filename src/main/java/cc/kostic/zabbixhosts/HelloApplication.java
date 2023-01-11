@@ -1,5 +1,7 @@
 package cc.kostic.zabbixhosts;
 
+import cc.kostic.zabbixhosts.datamodel.LON;
+import cc.kostic.zabbixhosts.metadata.Geo;
 import cc.kostic.zabbixhosts.metadata.IPinterfejs;
 import cc.kostic.zabbixhosts.metadata.Record;
 import cc.kostic.zabbixhosts.metadata.ZbxHost;
@@ -35,6 +37,12 @@ public class HelloApplication extends Application {
 
 	
 		for (Record r : rekordi) {
+			
+			if ( (r.lat.getValue() == null) || (r.lat.getValue().isBlank()) ) {
+				// Ovde smo jos na nivou CSV recorda. Nepostojece koordinate ce biti null ili prazan string
+				System.out.println("Lokacija " + r.lokacija.getValue() + " bez koordinata -> postavljena na \"" + Config.defaultCoord + ", " + Config.defaultCoord + "\"");
+			}
+			
 			List<IPinterfejs> svi = r.getInterfaces();
 			
 			if ( (svi == null) && (Config.CREATE_HOSTS_WITHOUT_INTERFACES) ) {

@@ -1,6 +1,7 @@
 package cc.kostic.zabbixhosts.metadata;
 
 import cc.kostic.zabbixhosts.Config;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.VisibleForTesting;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -14,16 +15,16 @@ public class Geo {
 	private String latStr;
 	private String lonStr;
 	
-	public Geo(String lat, String lon) {
+	public Geo(@Nullable String lat, @Nullable String lon) {
 		this.latStr = lat;
 		this.lonStr = lon;
-//		if (lat == null) {
-//			this.latStr = Config.defaultCoord.latStr;
-//		}
-//		if (lon == null) {
-//			this.lonStr = Config.defaultCoord.lonStr;
-//		}
-//
+		// if (lat.isBlank()) {
+		// 	this.latStr = Config.defaultCoord.latStr;
+		// }
+		// if (lon.isBlank()) {
+		// 	this.lonStr = Config.defaultCoord.lonStr;
+		// }
+
 	}
 	
 	
@@ -43,7 +44,6 @@ public class Geo {
 	public Float convert(String coord){
 		Float dec = null;
 		try {
-			dec = null;
 			String[] s = coord.trim().split("(°)|(')|(\")");
 			Float[] decimal = new Float[3];
 			for (int i = 0; i < s.length; i++) {
@@ -53,8 +53,8 @@ public class Geo {
 			dec += decimal[1] / 60.0f;
 			dec += decimal[2] / (60.0f * 60.0f);
 		} catch (NumberFormatException e) {
-			dec = 0f;
-			System.out.println("Hostovi sa koordinatama 0.0 postoje!!");
+			dec = Config.defaultCoord;
+			// System.out.println("Hostovi bez koordinata postoje!!");
 		}
 		return dec;
 	}

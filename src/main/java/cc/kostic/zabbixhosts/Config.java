@@ -9,7 +9,7 @@ import java.util.Set;
 public class Config {
 	
 	
-	public static Geo defaultCoord = new Geo("45°45'0", "21°21'0");	// BZVZ lokacija u slucaju null
+	public static Float defaultCoord = 0f;       // BZVZ lokacija u slucaju null
 	
 	public static final Set<String> interfejsKolone = new HashSet<>(Arrays.asList(
 			// "Pristup",   // Podrazumeva se da ovo kreira interfejse

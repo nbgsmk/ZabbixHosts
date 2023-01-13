@@ -77,7 +77,7 @@ public class Record {
 			
 			case pristup3G:
 				esa = IPdefault.ip3G.getNum();
-				intf = new IPinterfejs(adr + esa, p.name());
+				intf = new IPinterfejs(adr + esa, p.getNaziv());
 				intf.setTemplejt(Templejt.tpl_3G);
 				intf.addHostGrp(HostGrupa.grp_3G);
 				intf.setTip(IPinterfejs.TIP.PING);
@@ -88,14 +88,14 @@ public class Record {
 				if (Config.CambiumIPlink.contains(this.lokacija.getNameUtf())) {
 					// Cambium = SNMPv2
 					esa = IPdefault.ipLinkBlizi.getNum();
-					intf = new IPinterfejs(adr + esa, p.name() + " A");
+					intf = new IPinterfejs(adr + esa, p.getNaziv() + " A");
 					intf.addHostGrp(HostGrupa.grp_IPLink);
 					intf.setTemplejt(Templejt.tpl_IPLinkCAMB);
 					intf.setTip(IPinterfejs.TIP.SNMPv2_CAMBIUM);
 					tmpIntf.add(intf);
 
 					esa = IPdefault.ipLinkDalji.getNum();
-					intf = new IPinterfejs(adr + esa, p.name() + " B");
+					intf = new IPinterfejs(adr + esa, p.getNaziv() + " B");
 					intf.addHostGrp(HostGrupa.grp_IPLink);
 					intf.setTemplejt(Templejt.tpl_IPLinkCAMB);
 					intf.setTip(IPinterfejs.TIP.SNMPv2_CAMBIUM);
@@ -104,14 +104,14 @@ public class Record {
 				} else {
 					// Ubiquity = SNMPv1
 					esa = IPdefault.ipLinkBlizi.getNum();
-					intf = new IPinterfejs(adr + esa, p.name() + " A");
+					intf = new IPinterfejs(adr + esa, p.getNaziv() + " A");
 					intf.addHostGrp(HostGrupa.grp_IPLink);
 					intf.setTemplejt(Templejt.tpl_IPLink);
 					intf.setTip(IPinterfejs.TIP.SNMPv1);
 					tmpIntf.add(intf);
 
 					esa = IPdefault.ipLinkDalji.getNum();
-					intf = new IPinterfejs(adr + esa, p.name() + " B");
+					intf = new IPinterfejs(adr + esa, p.getNaziv() + " B");
 					intf.addHostGrp(HostGrupa.grp_IPLink);
 					intf.setTemplejt(Templejt.tpl_IPLink);
 					intf.setTip(IPinterfejs.TIP.SNMPv1);

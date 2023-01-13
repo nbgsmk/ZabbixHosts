@@ -7,10 +7,20 @@ import java.util.Map;
 public class Pristup extends XmlTag {
 	
 	public enum TIP {
-		NEMA,
-		pristup3G,
-		IPLink,
-		HCLink
+		NEMA("nema"),
+		pristup3G("3G"),
+		IPLink("IPLink"),
+		HCLink("HCLink");
+		
+		private final String naziv;
+		
+		TIP(String naziv) {
+			this.naziv = naziv;
+		}
+		
+		public String getNaziv(){
+			return this.naziv;
+		}
 	}
 	
 	
@@ -28,7 +38,4 @@ public class Pristup extends XmlTag {
 		}
 	}
 	
-
-	
-
 }

@@ -164,6 +164,7 @@ public class Record {
 				intf.setTemplejt(Templejt.tpl_RohdeSchwarz);
 				intf.addHostGrp(HostGrupa.grp_DVBT);
 				intf.addHostGrp(HostGrupa.grp_MUX1);
+				intf.setTip(IPinterfejs.TIP.SNMPv2);
 				break;
 			
 			case "MUX2":
@@ -175,6 +176,7 @@ public class Record {
 				intf.setTemplejt(Templejt.tpl_RohdeSchwarz);
 				intf.addHostGrp(HostGrupa.grp_DVBT);
 				intf.addHostGrp(HostGrupa.grp_MUX2);
+				intf.setTip(IPinterfejs.TIP.SNMPv2);
 				break;
 			
 			case "MUX3":
@@ -186,6 +188,7 @@ public class Record {
 				intf.setTemplejt(Templejt.tpl_RohdeSchwarz);
 				intf.addHostGrp(HostGrupa.grp_DVBT);
 				intf.addHostGrp(HostGrupa.grp_MUX3);
+				intf.setTip(IPinterfejs.TIP.SNMPv2);
 				break;
 			
 			case "Agregat":
@@ -193,6 +196,7 @@ public class Record {
 				intf = new IPinterfejs(adr + esa, kolona);
 				intf.setTemplejt(Templejt.tpl_Agregat);
 				intf.addHostGrp(HostGrupa.grp_Agregati);
+				intf.setTip(IPinterfejs.TIP.SNMPv2);
 				break;
 			
 			case "UPS":
@@ -201,6 +205,7 @@ public class Record {
 				intf = new IPinterfejs(tmp_adr, kolona);
 				intf.setTemplejt(tmp_tpl);
 				intf.addHostGrp(HostGrupa.grp_UPS);
+				intf.setTip(IPinterfejs.TIP.SNMPv2);
 				break;
 			
 		}

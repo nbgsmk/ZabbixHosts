@@ -2,7 +2,7 @@ package cc.kostic.zabbixhosts.metadata;
 
 public enum Templejt {
 	
-	tpl_3G("tpl_ICMP Ping 12h"),		// tpl_3G ok
+	tpl_3G("tpl_3G"),		            // tpl_3G ok
 	tpl_Agregat("tpl_Agregat"),		// tpl_Agreat ok - scada
 	
 	tpl_Default("tpl_Default"),

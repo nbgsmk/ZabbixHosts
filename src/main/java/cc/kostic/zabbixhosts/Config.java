@@ -17,11 +17,14 @@ public class Config {
 			"MUX2",
 			"MUX3",
 			"Agregat",
-			"UPS"
+			"UPS",
+			// u slucaju dodavanja novih kolona, prosiriti template u Record.java - // INTERFEJS KOLONE - DODATAK
+			"UPS2"
 	));
 	
 	public static boolean CREATE_HOSTS_WITHOUT_INTERFACES = true;
 	public static boolean EXPORT_GROUPS_SUMMARY = false;
+	public static boolean SKIP_DISABLED_HOST_EXPORT = false;
 
 	public static final String HOST_SUFFIX_BEZ_INTERFEJSA = "n-a";
 	

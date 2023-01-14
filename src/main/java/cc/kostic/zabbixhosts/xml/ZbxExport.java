@@ -84,6 +84,11 @@ public class ZbxExport {
 			// host
 			for (ZbxHost h : hostovi) {
 				htmp = h;
+				
+				if ( (h.isSkipExport()) || (Config.SKIP_DISABLED_HOST_EXPORT) ) {
+					continue;
+				}
+				
 				Element jedanHost = doc.createElement("host");
 				
 				// lokacija tj naziv hosta - specijalan slucaj zbog ascii/utf kojeg zabbix prihvata
@@ -98,6 +103,7 @@ public class ZbxExport {
 					hostUtf.appendChild(doc.createTextNode(h.getNameUtf()));
 					jedanHost.appendChild(hostUtf);
 				}
+				
 				
 				
 				// templates
@@ -127,10 +133,18 @@ public class ZbxExport {
 							grp.appendChild(grpName);
 							grpName.appendChild(doc.createTextNode(hgs.getName()));
 							groups.appendChild(grp);
+							
 						}
 					}
 				}
 				jedanHost.appendChild(groups);
+				
+				// <status>DISABLED
+				if (h.isDisabled()) {
+					Element dis = doc.createElement("status");
+					dis.appendChild(doc.createTextNode("DISABLED"));
+					jedanHost.appendChild(dis);
+				}
 				
 				
 				// interfaces

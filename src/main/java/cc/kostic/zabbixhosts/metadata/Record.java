@@ -208,6 +208,16 @@ public class Record {
 				intf.setTip(IPinterfejs.TIP.SNMPv2);
 				break;
 			
+				// INTERFEJS KOLONE - DODATAK
+			case "UPS2":
+				tmp_adr = IPdefault.getCplxAdr(this.keyval.get(kolona));
+				tmp_tpl = IPdefault.getCplxTemplate(this.keyval.get(kolona));
+				intf = new IPinterfejs(tmp_adr, kolona);
+				intf.setTemplejt(tmp_tpl);
+				intf.addHostGrp(HostGrupa.grp_UPS);
+				intf.setTip(IPinterfejs.TIP.SNMPv2);
+				break;
+			
 		}
 		return intf;
 	}

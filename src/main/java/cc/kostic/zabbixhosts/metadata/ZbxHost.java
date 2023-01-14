@@ -1,11 +1,6 @@
 package cc.kostic.zabbixhosts.metadata;
 
 import cc.kostic.zabbixhosts.datamodel.*;
-import cc.kostic.zabbixhosts.metadata.Geo;
-import cc.kostic.zabbixhosts.metadata.IPinterfejs;
-import cc.kostic.zabbixhosts.metadata.Record;
-import cc.kostic.zabbixhosts.metadata.XmlTag;
-import cc.kostic.zabbixhosts.metadata.Templejt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +31,9 @@ public class ZbxHost {
 	public LAT lat;
 	public LON lon;
 	public Geo geo;
+	
+	private boolean disabled;
+	private boolean skipExport;
 	
 	public ZbxHost(Record record) {
 		this.record = record;
@@ -114,5 +112,21 @@ public class ZbxHost {
 	
 	public Geo getGeo() {
 		return geo;
+	}
+	
+	public boolean isDisabled() {
+		return disabled;
+	}
+	
+	public void setDisabled(boolean disabled) {
+		this.disabled = disabled;
+	}
+	
+	public boolean isSkipExport() {
+		return skipExport;
+	}
+	
+	public void setSkipExport(boolean skipExport) {
+		this.skipExport = skipExport;
 	}
 }

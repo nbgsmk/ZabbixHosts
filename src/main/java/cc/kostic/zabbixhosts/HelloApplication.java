@@ -1,10 +1,7 @@
 package cc.kostic.zabbixhosts;
 
-import cc.kostic.zabbixhosts.datamodel.LON;
-import cc.kostic.zabbixhosts.metadata.Geo;
-import cc.kostic.zabbixhosts.metadata.IPinterfejs;
+import cc.kostic.zabbixhosts.metadata.*;
 import cc.kostic.zabbixhosts.metadata.Record;
-import cc.kostic.zabbixhosts.metadata.ZbxHost;
 import cc.kostic.zabbixhosts.xml.ZbxExport;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -56,6 +53,14 @@ public class HelloApplication extends Application {
 					h.setName(ip.getNaziv());
 					h.addInterface(ip);
 					h.setTemplejt(ip.getTemplejt());
+					for (HostGrupa hg : ip.getHostGrpSet()){
+						if (hg.isDisabled()) {
+							h.setDisabled(true);
+						}
+						if (hg.isSkipExport()) {
+							h.setSkipExport(true);
+						}
+					}
 					hostovi.add(h);
 				}
 			}

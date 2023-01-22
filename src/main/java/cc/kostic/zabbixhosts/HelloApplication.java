@@ -171,3 +171,15 @@ public class HelloApplication extends Application {
 		return s;
 	}
 }
+
+
+// TODO IP linkovi - bolje objasnjenje umesto A i B
+// TODO sa Zabbix-a preuzeti koji su linkovi CAMBIUM
+// TODO za Zabbix-a konfigurisati sve Ubiquiti da salju SNMP
+// TODO za Zabbix-a konfigurisati sve CAMBIUM da salju SNMP
+// TODO dovrsiti tpl_Cambium
+// TODO dovrsiti tpl_IPLink (Ubiquity). Mozda promeniti lokaciju u naziv objekta (umesto Markove ip adrese jer to nije nikakva adresa)
+// TODO Zabbix - discovery jos jednom za sve IP linkove - uporediti sa mojim excelom
+// TODO Zabbix - discovery jos jednom za sve 3G modeme - uporediti sa mojim excelom
+
+

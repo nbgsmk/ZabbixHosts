@@ -181,5 +181,7 @@ public class HelloApplication extends Application {
 // TODO dovrsiti tpl_IPLink (Ubiquity). Mozda promeniti lokaciju u naziv objekta (umesto Markove ip adrese jer to nije nikakva adresa)
 // TODO Zabbix - discovery jos jednom za sve IP linkove - uporediti sa mojim excelom
 // TODO Zabbix - discovery jos jednom za sve 3G modeme - uporediti sa mojim excelom
+// TODO tpl_UPS dovrsiti
+// TODO tpl_UPS povezati sve UPS
 
 

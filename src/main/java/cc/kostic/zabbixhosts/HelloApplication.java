@@ -183,5 +183,7 @@ public class HelloApplication extends Application {
 // TODO Zabbix - discovery jos jednom za sve 3G modeme - uporediti sa mojim excelom
 // TODO tpl_UPS dovrsiti
 // TODO tpl_UPS povezati sve UPS
-
+// TODO tagovi ALOT C-M, O-T, BK... prepraviti u normalne reci
+// TODO "nedostupan 30% vremena" je glupo. Preimenovati u npr "early warning". Kasni oko sat vremena iza PRTG-a.
+// TODO tpl_UPS ako nema napona ili freq na ulazu, to je DISASTER. Nema struje, agregat nije startovao!
 

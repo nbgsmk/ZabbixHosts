@@ -187,3 +187,4 @@ public class HelloApplication extends Application {
 // TODO "nedostupan 30% vremena" je glupo. Preimenovati u npr "early warning". Kasni oko sat vremena iza PRTG-a.
 // TODO tpl_UPS ako nema napona ili freq na ulazu, to je DISASTER. Nema struje, agregat nije startovao!
 
+// TODO templejte tpl_ polako testirati i preseliti u ZK

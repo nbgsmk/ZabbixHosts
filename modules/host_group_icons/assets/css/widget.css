@@ -40,3 +40,9 @@
 .host-group-icons-popup-details {
 	margin-top: 6px;
 }
+
+.host-group-icons-marker.host-group-icons-severity-1 { background: #7499ff; }
+.host-group-icons-marker.host-group-icons-severity-2 { background: #ffc859; }
+.host-group-icons-marker.host-group-icons-severity-3 { background: #ffa059; }
+.host-group-icons-marker.host-group-icons-severity-4 { background: #e97659; }
+.host-group-icons-marker.host-group-icons-severity-5 { background: #e45959; }

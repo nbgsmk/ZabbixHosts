@@ -39,6 +39,29 @@ class WidgetView extends CControllerDashboardWidgetView {
 		}
 
 		$hosts = API::Host()->get($params);
+		$severities = [];
+		if ($hosts !== []) {
+			$problems = API::Problem()->get([
+				'output' => ['objectid', 'severity'],
+				'hostids' => array_column($hosts, 'hostid')
+			]);
+			$problems = is_array($problems) ? $problems : [];
+			$triggerids = array_values(array_unique(array_column($problems, 'objectid')));
+			$triggers = $triggerids !== [] ? API::Trigger()->get([
+				'output' => ['triggerid'],
+				'selectHosts' => ['hostid'],
+				'triggerids' => $triggerids
+			]) : [];
+			$trigger_hosts = [];
+			foreach (is_array($triggers) ? $triggers : [] as $trigger) {
+				$trigger_hosts[$trigger['triggerid']] = array_column($trigger['hosts'] ?? [], 'hostid');
+			}
+			foreach ($problems as $problem) {
+				foreach ($trigger_hosts[$problem['objectid']] ?? [] as $hostid) {
+					$severities[$hostid] = max($severities[$hostid] ?? 0, (int) $problem['severity']);
+				}
+			}
+		}
 		$ping_items = [];
 		if ($hosts !== []) {
 			$items = API::Item()->get([
@@ -84,6 +107,7 @@ class WidgetView extends CControllerDashboardWidgetView {
 			$host['latitude'] = (float) $latitude;
 			$host['longitude'] = (float) $longitude;
 			$host['ping'] = $ping_items[$host['hostid']] ?? null;
+			$host['max_severity'] = $severities[$host['hostid']] ?? 0;
 			$host['map_icon'] = $marker_groups[0]['icon'] ?? '📍';
 			$map_hosts[] = $host;
 		}

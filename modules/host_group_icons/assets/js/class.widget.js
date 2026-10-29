@@ -73,6 +73,7 @@ class WidgetHostGroupIcons extends CWidget {
 				}),
 				title: `${host.name} (${groupNames})`
 			});
+			markerElement.classList.add(`host-group-icons-severity-${host.max_severity}`);
 
 			const popup = document.createElement('div');
 			const hostName = document.createElement('strong');
@@ -107,6 +108,19 @@ class WidgetHostGroupIcons extends CWidget {
 				details.append(row);
 			}
 			popup.append(details);
+
+			const severityNames = ['Not classified', 'Information', 'Warning', 'Average', 'High', 'Disaster'];
+			const severity = Number(host.max_severity || 0);
+			const severityRow = document.createElement('div');
+			severityRow.textContent = `Severity: ${severityNames[severity] || severity}`;
+			details.append(severityRow);
+
+			const problemsLink = document.createElement('a');
+			problemsLink.href = `zabbix.php?action=problem.view&filter_hostids[]=${encodeURIComponent(host.hostid)}`;
+			problemsLink.textContent = 'Open Zabbix problems';
+			problemsLink.target = '_blank';
+			problemsLink.rel = 'noopener';
+			popup.append(problemsLink);
 
 			marker.bindPopup(popup);
 			marker.addTo(this._markers);

@@ -1,0 +1,29 @@
+{
+	"manifest_version": 2.0,
+	"id": "host_group_icons",
+	"type": "widget",
+	"name": "Hosts by group map",
+	"namespace": "HostGroupIcons",
+	"version": "1.2",
+	"author": "ZabbixHosts",
+	"description": "Displays hosts with a distinct icon for each host group.",
+	"widget": {
+		"js_class": "WidgetHostGroupIcons",
+		"name": "Hosts by group map",
+		"size": {
+			"width": 12,
+			"height": 6
+		},
+		"form_class": "WidgetForm",
+		"refresh_rate": 60
+	},
+	"actions": {
+		"widget.host_group_icons.view": {
+			"class": "WidgetView"
+		}
+	},
+	"assets": {
+		"css": ["widget.css"],
+		"js": ["class.widget.js"]
+	}
+}
